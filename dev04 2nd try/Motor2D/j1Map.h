@@ -5,31 +5,28 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "j1Module.h"
-#include "p2DynArray.h"
-
 
 // TODO 1: Create a struct for the map layer
-struct mapLayer
+struct Layer
 {
-	p2SString			name;
-	unsigned int		width;
-	unsigned int		heigth;
-	unsigned int*		gidArray;  //array to store all the id values1
+	p2SString name;
+	unsigned int width = 0u;
+	unsigned int height = 0u;
+	unsigned int* gid_list;
+
+	// TODO 6: Short function to get the value of x, y
+
+	inline uint Get(int x, int y) //const
+	{
+		return (y * width) + x;
+	}
 
 };
-// ----------------------------------------------------
-
-	// TODO 6: Short function to get the value of x,y
-bool get2dValue()
-{
-
-}
 
 // ----------------------------------------------------
 struct TileSet
 {
-	// TODO 7: Create a method that receives a tile id and returns it's Rect
-
+	
 	p2SString			name;
 	int					firstgid;
 	int					margin;
@@ -43,6 +40,25 @@ struct TileSet
 	int					num_tiles_height;
 	int					offset_x;
 	int					offset_y;
+
+	// TODO 7: Create a method that receives a tile id and returns it's Rect
+	SDL_Rect GetTileRect(uint id)
+	{
+		SDL_Rect tile_rect;
+
+		//first gid is the id number that has the first tile. We have to substract 
+		//firstgid parameter to the id that is passed when the method is called so 
+		//the id would be placed where it belongs into the actual array.
+		uint tile_id = id - firstgid;
+
+		//tilerect parameters:
+		tile_rect.h = tile_height;
+		tile_rect.w = tile_width;
+		tile_rect.x = margin + ((tile_width + spacing) * (tile_id % num_tiles_width));
+		tile_rect.y = margin + ((tile_height + spacing) * (tile_id / num_tiles_width));
+
+		return tile_rect;
+	}
 };
 
 enum MapTypes
@@ -63,7 +79,7 @@ struct MapData
 	MapTypes			type;
 	p2List<TileSet*>	tilesets;
 	// TODO 2: Add a list/array of layers to the map!
-	p2List<mapLayer*>	layers;
+	p2List<Layer*>		layers;
 };
 
 // ----------------------------------------------------
@@ -89,17 +105,25 @@ public:
 	bool Load(const char* path);
 
 	// TODO 8: Create a method that translates x,y coordinates from map positions to world positions
+	inline uint X_MapToWorld(uint x)
+	{
+		return (data.tile_width * x);
+	}
+	uint Y_MapToWorld(uint y)
+	{
+		return (data.tile_height * y);
+	}
 
 private:
 
 	bool LoadMap();
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set);
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set);
-	//TODO 3: Create a method that loads a single layer
-	bool LoadLayer(pugi::xml_node& node, mapLayer* layer);
-	unsigned int* gidList;
+	// TODO 3: Create a method that loads a single laye
+	bool LoadLayer(pugi::xml_node& node, Layer* layer);
 
 public:
+
 	MapData data;
 
 private:

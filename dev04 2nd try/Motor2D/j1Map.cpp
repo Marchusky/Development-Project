@@ -6,7 +6,6 @@
 #include "j1Map.h"
 #include <math.h>
 
-
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.create("map");
@@ -31,21 +30,33 @@ void j1Map::Draw()
 {
 	if(map_loaded == false)
 		return;
-
-	// TODO 5: Prepare the loop to iterate all the tiles in a layer
-	//(pc)layer width = map width; same happens with heigth. so:
-
-	unsigned int layer_width = data.width;
-	unsigned int layer_height = data.height;
 	
-	for (unsigned int i = 0; i < layer_height; i++)
+	Layer* layer_var = data.layers.start->data;//variable to store each of the arrays before drawing
+	TileSet* tileset_var = data.tilesets.start->data; //variable to store each of the tilesets before drawing
+
+	for (uint y = 0; y < layer_var->height; y++)//variable fila
 	{
-		for (unsigned int j = 0; j < layer_width; j++)
+		for (uint x = 0; x < layer_var->width; x++)//variable columna
 		{
-			//---algo---//
+			//miramos la gid que corresponde a las coordenadas en las que nos encontramos mediante
+			//transformar la x e y en un valor único con la función Get(desde la capa que toca para
+			//tener asignada la width que corresponde).
+			uint gid_var = layer_var->gid_list[layer_var->Get(x, y)]; 
+			
+			//una vez encontrada la gid de las coordenadas en la layer, buscamos el tileRect que le 
+			//toca a la id con la función GetTileRect() creada en el todo 8.  
+			SDL_Rect rect_var = tileset_var->GetTileRect(gid_var);
+
+			//Ahora hacemos el blit de todo el asunto :)
+			App->render->Blit(tileset_var->texture, x * (tileset_var->tile_width), y * (tileset_var->tile_height), &rect_var);
+
 		}
 	}
+	
+	//------- hasta aquí para printear 1 capa pero ¿como printear el mapa con mas de una capa?-------// 
 
+	// TODO 5: Prepare the loop to iterate all the tiles in a layer
+	
 	// TODO 9: Complete the draw function
 
 }
@@ -69,16 +80,16 @@ bool j1Map::CleanUp()
 
 	// TODO 2: clean up all layer data
 	// Remove all layers
-	
-	p2List_item<mapLayer*>* layer;
+
+	p2List_item<Layer*>* layer;
 	layer = data.layers.start;
 
 	while (layer != NULL)
 	{
-		RELEASE(item->data);
+		RELEASE(layer->data);
 		layer = layer->next;
 	}
-
+	data.layers.clear();
 
 	// Clean up the pugui tree
 	map_file.reset();
@@ -114,7 +125,7 @@ bool j1Map::Load(const char* file_name)
 
 		if(ret == true)
 		{
-			ret  = LoadTilesetDetails(tileset, set);
+			ret = LoadTilesetDetails(tileset, set);
 		}
 
 		if(ret == true)
@@ -127,18 +138,19 @@ bool j1Map::Load(const char* file_name)
 
 	// TODO 4: Iterate all layers and load each of them
 	// Load layer info ----------------------------------------------
-	pugi::xml_node layer;
-	for (layer = map_file.child("map").child("layer"); layer && ret; layer = layer.next_sibling("layer"))
+
+	for (pugi::xml_node layer_node = map_file.child("map").child("layer"); layer_node; layer_node = layer_node.next_sibling("layer"))
 	{
-		mapLayer* map = new mapLayer();
+		Layer* layer = new Layer();
 
 		if (ret == true)
-		{
-			ret = LoadLayer(layer, map);
+		{			
+			LoadLayer(layer_node, layer);
 		}
 
-		data.layers.add(map);
+		data.layers.add(layer);
 	}
+
 
 
 	if(ret == true)
@@ -161,13 +173,13 @@ bool j1Map::Load(const char* file_name)
 		// TODO 4: Add info here about your loaded layers
 		// Adapt this code with your own variables
 		
-		p2List_item<mapLayer*>* item_layer = data.layers.start;
+		p2List_item<Layer*>* item_layer = data.layers.start;
 		while(item_layer != NULL)
 		{
-			mapLayer* l = item_layer->data;
+			Layer* l = item_layer->data;
 			LOG("Layer ----");
 			LOG("name: %s", l->name.GetString());
-			LOG("tile width: %d tile height: %d", l->width, l->heigth);
+			LOG("tile width: %d tile height: %d", l->width, l->height);
 			item_layer = item_layer->next;
 		}
 	}
@@ -304,28 +316,39 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 	return ret;
 }
 
-// TODO 3: Create the definition for a function that loads a single layer
-bool j1Map::LoadLayer(pugi::xml_node& node, mapLayer* layer)
+ //TODO 3: Create the definition for a function that loads a single layer
+
+bool j1Map::LoadLayer(pugi::xml_node& node, Layer* layer)
 {
-	//node --> "layer" child --> "data" 
-	//child --> "tile"(s) --> attribute(s) --> gid = ...
-
 	bool ret = true;
-	layer->name.create(node.attribute("name").as_string());
-	layer->width = node.attribute("width").as_int();
-	layer->heigth = node.attribute("height").as_int();
-	layer->gidArray = new unsigned int();
-	unsigned int gidValue = 0;
+//node --> "layer" child --> "data" 
+//child --> "tile"(s) --> attribute(s) --> gid = ...
 
-	int i = 0;
-
-	for (pugi::xml_node tile = node.child("data").first_child();
-		tile; tile = tile.next_sibling())
+	if (node == NULL)
 	{
-		*(layer->gidArray + i) = tile.attribute("gid").as_uint();
-			i++;
+		LOG("Error parsing tileset xml file: Cannot find 'layer' tag.");
+		return false;
 	}
+	//load header data
+	layer->name.create(node.attribute("name").as_string());
+	layer->width = node.attribute("width").as_uint();
+	layer->height = node.attribute("height").as_uint();
 
+	//allocate the array 
+	layer->gid_list = new uint[layer->width * layer->height];
 
+	//fill the entire array with zeros using memset function
+	memset(layer->gid_list, 0, sizeof(uint) * layer->width * layer->height);
+
+	//iterata all tile gids and store them into the layer
+	uint position_index = 0;
+
+	for (pugi::xml_node tile = node.child("data").first_child(); tile; tile = tile.next_sibling())
+	{
+		layer->gid_list[position_index] = tile.attribute("gid").as_uint();
+		position_index++;
+	}
+	
 	return ret;
+
 }
