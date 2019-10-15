@@ -343,12 +343,21 @@ bool j1Map::LoadLayer(pugi::xml_node& node, Layer* layer)
 	//iterata all tile gids and store them into the layer
 	uint position_index = 0;
 
-	for (pugi::xml_node tile = node.child("data").first_child(); tile; tile = tile.next_sibling())
+	//two versions for the different encodings ??
+	const char* data_encoding = node.child("data").attribute("encoding").as_string();
+
+	if (strcmp(data_encoding), "csv")
 	{
-		layer->gid_list[position_index] = tile.attribute("gid").as_uint();
-		position_index++;
+
 	}
-	
+	else
+	{
+		for (pugi::xml_node tile = node.child("data").first_child(); tile; tile = tile.next_sibling())
+		{
+			layer->gid_list[position_index] = tile.attribute("gid").as_uint();
+				position_index++;
+		}
+	}
 	return ret;
 
 }

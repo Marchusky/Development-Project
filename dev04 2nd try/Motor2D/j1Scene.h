@@ -33,6 +33,9 @@ public:
 	bool CleanUp();
 
 private:
+
+public:
+	pugi::xml_attribute map;
 };
 
 #endif // __j1SCENE_H__

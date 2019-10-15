@@ -78,6 +78,7 @@ bool j1App::Awake()
 		app_config = config.child("app");
 		title.create(app_config.child("title").child_value());
 		organization.create(app_config.child("organization").child_value());
+		map0_title.create(config.child("map").child("map_0").child_value());
 	}
 
 	if(ret == true)
@@ -271,6 +272,10 @@ const char* j1App::GetOrganization() const
 	return organization.GetString();
 }
 
+const char* j1App::GetMapName() const
+{
+	return map0_title.GetString();
+}
 // Load / Save
 void j1App::LoadGame()
 {

@@ -29,8 +29,14 @@ bool j1Scene::Awake()
 
 // Called before the first frame
 bool j1Scene::Start()
-{
-	App->map->Load("hello2.tmx");
+{ 
+	//Aquí he cambiado cosas: he hecho una función en j1App que te coja la
+	//string del mapa0 desde config.xml porque queda mejor que tener que 
+	//cambiar a mano el nombre del fichero cadda vez que cambiemos de mapa
+	//Simplemente se cambia desde config.
+
+	const char* map0 = App->GetMapName(); 
+	App->map->Load(map0); //  <--- El mapa se cambia desde aquí!!
 	return true;
 }
 

@@ -44,6 +44,7 @@ public:
 	const char* GetArgv(int index) const;
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
+	const char* GetMapName()const;
 
 	void LoadGame();
 	void SaveGame() const;
@@ -83,7 +84,6 @@ public:
 	j1Audio*			audio;
 	j1Scene*			scene;
 	j1Map*				map;
-
 private:
 
 	p2List<j1Module*>	modules;
@@ -94,6 +94,7 @@ private:
 
 	p2SString			title;
 	p2SString			organization;
+	p2SString			map0_title;
 
 	mutable bool		want_to_save;
 	bool				want_to_load;
