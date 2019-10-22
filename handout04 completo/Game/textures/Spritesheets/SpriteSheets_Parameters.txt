@@ -1,0 +1,29 @@
+Idle: 
+	character size (w,h)(48,75)
+	1s Row: (5,1) cada 82
+	2n Row: (6,92) cada 83
+
+Walking: 
+	character size (w,h)(,)
+	1s Row: (5,219) Separation between sprites = 
+	2n Row: (6,308) Separation between sprites = 
+
+Running: 
+	character size (w,h)(,)
+	1s Row: (3,457) Separation between sprites = 
+	2n Row: (3,546) Separation between sprites = 
+
+Jumping: 
+	character size (w,h)(,)
+	1s Row: (23,663) Separation between sprites = 
+	2n Row: (6,749) Separation between sprites = 
+
+Sliding: 
+	character size (w,h)(,)
+	1s Row: (3,881) Separation between sprites = 
+	2n Row: (3,971) Separation between sprites = 
+
+Dying: 
+	character size (w,h)(,)
+	1s Row: (5,1086) Separation between sprites = 
+	2n Row: (6,1173) Separation between sprites = 
