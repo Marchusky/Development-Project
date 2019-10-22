@@ -63,13 +63,15 @@ TileSet* j1Map::GetTilesetFromTileId(int id) const
 	// TODO 3: Complete this method so we pick the right
 	// Tileset based on a tile id
 	p2List_item<TileSet*>* actual_tileset = data.tilesets.start;
-	uint next_firstgid = actual_tileset->next->data->firstgid;
-
-	while (id > next_firstgid && actual_tileset->next != nullptr)
+	if (actual_tileset->next)
 	{
-		actual_tileset = actual_tileset->next;
-	}
+		uint next_firstgid = actual_tileset->next->data->firstgid;
 
+		while (id > next_firstgid)
+		{
+			actual_tileset = actual_tileset->next;
+		}
+	}
 	return actual_tileset->data;
 }
 
@@ -172,7 +174,7 @@ bool j1Map::Load(const char* file_name)
 	bool ret = true;
 	p2SString tmp("maps\\%s", folder.GetString(), file_name);
 
-	pugi::xml_parse_result result = map_file.load_file("maps/tamañobackground.tmx");
+	pugi::xml_parse_result result = map_file.load_file("maps/platformer_map_0.tmx");
 
 	if(result == NULL)
 	{
