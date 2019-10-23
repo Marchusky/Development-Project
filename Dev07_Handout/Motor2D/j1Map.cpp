@@ -63,14 +63,10 @@ TileSet* j1Map::GetTilesetFromTileId(int id) const
 	// TODO 3: Complete this method so we pick the right
 	// Tileset based on a tile id
 	p2List_item<TileSet*>* actual_tileset = data.tilesets.start;
-	if (actual_tileset->next)
+	
+	while (actual_tileset->next && id > actual_tileset->next->data->firstgid)
 	{
-		uint next_firstgid = actual_tileset->next->data->firstgid;
-
-		while (id > next_firstgid)
-		{
-			actual_tileset = actual_tileset->next;
-		}
+		actual_tileset = actual_tileset->next;
 	}
 	return actual_tileset->data;
 }
@@ -418,5 +414,7 @@ bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 	// TODO 6: Fill in the method to fill the custom properties from 
 	// an xml_node
 
+
+	
 	return ret;
 }
