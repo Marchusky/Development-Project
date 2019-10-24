@@ -3,6 +3,8 @@
 
 #include "p2Log.h"
 #include "j1App.h"
+#include "j1Render.h"
+#include "j1Input.h"
 #include "j1Collision.h"
 
 j1Collision::j1Collision()
@@ -66,7 +68,6 @@ bool j1Collision::PostUpdate()
 {
 
 	//--UNCOMMENT WHEN THE PLAYER MODULE IS CREATED--// @MARCHUSKY
-	
 	bool ret = true;
 	/*
 	// Calculate collisions
@@ -109,7 +110,7 @@ bool j1Collision::PostUpdate()
 void j1Collision::DebugDraw()
 {
 	
-	if (App->input->keyboard[SDL_SCANCODE_F1] == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
 
 	if (debug == false)
@@ -131,7 +132,7 @@ void j1Collision::DebugDraw()
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
 			break;
 		
-		}
+		} 
 	}
 
 }
