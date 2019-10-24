@@ -9,16 +9,13 @@
 
 #include "j1Module.h"
 
-
-
-
 enum COLLIDER_TYPE
 {
 	COLLIDER_NONE = -1,
 	WALL,
 	CLIMB_WALL,
 	BONUS,
-	CHARACTER,
+	PLAYER,
 
 	COLLIDER_MAX
 };
