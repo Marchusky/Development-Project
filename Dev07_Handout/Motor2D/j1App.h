@@ -14,6 +14,7 @@ class j1Audio;
 class j1Scene;
 class j1Map;
 class j1Collision;
+class j1Player;
 
 class j1App
 {
@@ -85,6 +86,7 @@ public:
 	j1Scene*			scene;
 	j1Map*				map;
 	j1Collision*		coll;
+	j1Player*			player;
 
 private:
 
@@ -103,6 +105,6 @@ private:
 	mutable p2SString	save_game;
 };
 
-extern j1App* App; // No student is asking me about that ... odd :-S
+extern j1App* App; //needed?
 
 #endif
