@@ -6,6 +6,7 @@
 #include "j1Render.h"
 #include "p2Point.h"
 #include "Animation.h"
+#include "j1Collision.h"
 
 
 struct SDL_Texture;
@@ -112,6 +113,10 @@ public:
 
 	//Dying
 	Animation		dying;
+
+public:
+
+	Collider*		main_Collider;
 }
 
 #endif

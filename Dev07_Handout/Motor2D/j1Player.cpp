@@ -33,7 +33,10 @@ bool j1Player::Awake(pugi::xml_node& node)
 	Player_vel_r = node.attribute("Player_vel_r").as_float();
 	Gravity = node.attribute("Gravity").as_float();
 	Slide_distance = node.attribute("slide_distance").as_float();
-
+	main_Collider; /*48,75*/
+	main_Collider;
+	main_Collider;
+	main_Collider;
 	return ret;
 }
 
@@ -77,7 +80,7 @@ bool j1Player::PreUpdate()
 		PlayerInput.A_enabled = App->input->keyboard[SDL_SCANCODE_A] == KEY_REPEAT;
 		PlayerInput.S_enabled = App->input->keyboard[SDL_SCANCODE_S] == KEY_REPEAT;
 		PlayerInput.D_enabled = App->input->keyboard[SDL_SCANCODE_D] == KEY_REPEAT;
-		//PlayerInput.Shift_enabled = App->input->keyboard[SDL_SCANCODE_] == KEY_REPEAT; //preguntar
+		PlayerInput.Shift_enabled = App->input->keyboard[SDL_SCANCODE_LSHIFT] == KEY_REPEAT;
 		PlayerInput.Space_enabled = App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT;
 	}
 	else
