@@ -6,11 +6,12 @@
 #include "j1Render.h"
 #include "p2Point.h"
 #include "Animation.h"
-#include "j1Collision.h"
+
 
 
 struct SDL_Texture;
 struct Animation;
+struct Collider;
 
 struct Player_Input
 {
@@ -88,8 +89,8 @@ public:
 	//POSITION
 	iPoint			CurrentPosition;
 	iPoint			StartingPosition;
-	float			Player_vel_w;
-	float			Player_vel_r;
+	float			PlayerVel_w;
+	float			PlayerVel_r;
 	SDL_Texture*	Graphics = nullptr;
 
 	//Idle
@@ -117,6 +118,8 @@ public:
 public:
 
 	Collider*		main_Collider;
+	uint			main_x;
+	uint			main_y;
 }
 
 #endif

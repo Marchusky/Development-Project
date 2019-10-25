@@ -6,6 +6,7 @@
 #include "j1Render.h"
 #include "j1Input.h"
 #include "j1Collision.h"
+#include "j1Player.h"
 
 j1Collision::j1Collision()
 {
@@ -68,8 +69,8 @@ bool j1Collision::PostUpdate()
 {
 
 	//--UNCOMMENT WHEN THE PLAYER MODULE IS CREATED--// @MARCHUSKY
-	bool ret = true;
-	/*
+	bool ret = true; 
+	
 	// Calculate collisions
 	Collider* c1;
 	Collider* c2;
@@ -93,15 +94,15 @@ bool j1Collision::PostUpdate()
 			if (c1->CheckCollision(c2->rect) == true)
 			{
 				if (matrix[c1->type][c2->type] && c1->callback)
-					App->player->OnCollision(c1, c2);
+					c1->callback->OnCollision(c1, c2);
 
 				if (matrix[c2->type][c1->type] && c2->callback)
-					App->player->OnCollision(c2, c1);
+					c2->callback->OnCollision(c2, c1);
 			}
 
 		}
 	}
-	*/
+
 	return ret;
 
 	

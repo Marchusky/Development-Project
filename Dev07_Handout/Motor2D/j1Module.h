@@ -10,6 +10,7 @@
 #include "PugiXml\src\pugixml.hpp"
 
 class j1App;
+class Collider; //forward declaration for the ds
 
 class j1Module
 {
@@ -74,6 +75,8 @@ public:
 	p2SString	name;
 	bool		active;
 
+	// Callbacks ---
+	virtual void OnCollision(Collider*, Collider*) {}
 };
 
 #endif // __j1MODULE_H__

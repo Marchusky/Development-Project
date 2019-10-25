@@ -8,6 +8,7 @@
 #include "Animation.h"
 #include "j1Player.h"
 #include "j1Audio.h"
+#include "j1Collision.h"
 
 j1Player::j1Player()
 {
@@ -24,19 +25,20 @@ bool j1Player::Awake(pugi::xml_node& node)
 	bool ret = true;
 
 	pugi::xml_node player = node.child("player");
+	pugi::xml_node colliders = node.child("colliders");
 	
 	//MAGIC NUMBERS
-	Initial_Pos.x = node.attribute("InitalPos_x").as_uint();
-	Initial_Pos.y = node.attribute("InitalPos_y").as_uint();
+	Initial_Pos.x = player.attribute("InitalPos_x").as_uint();
+	Initial_Pos.y = player.attribute("InitalPos_y").as_uint();
 	CurrentPosition = { Initial_Pos.x,Initial_Pos.y };
-	Player_vel_w = node.attribute("Player_vel_w").as_float();
-	Player_vel_r = node.attribute("Player_vel_r").as_float();
-	Gravity = node.attribute("Gravity").as_float();
-	Slide_distance = node.attribute("slide_distance").as_float();
-	main_Collider; /*48,75*/
-	main_Collider;
-	main_Collider;
-	main_Collider;
+	PlayerVel_w = player.attribute("PlayerVel_w").as_float();
+	PlayerVel_r = player.attribute("PlayerVel_r").as_float();
+	Gravity = player.attribute("Gravity").as_float();
+	Slide_distance = player.attribute("slide_distance").as_float();
+	main_x = colliders.child("coordinate_x").attribute("value").as_uint(); /*48,75*/
+	main_y = colliders.child("coordinate_y").attribute("value").as_uint();
+	main_Collider->rect.w = colliders.child("width").attribute("value").as_uint();
+	main_Collider->rect.h = colliders.child("height").attribute("value").as_uint();
 	return ret;
 }
 
@@ -110,25 +112,25 @@ bool j1Player::Update(float dt)
 
 	case ST_LEFT_W:
 		LOG("WALKING LEFT");
-		CurrentPosition.x -= Player_vel_w;
+		CurrentPosition.x -= PlayerVel_w;
 		CurrentPosition.y; //needed?
 		break;
 
 	case ST_LEFT_R:
 		LOG("RUNNING LEFT");
-		CurrentPosition.x = Player_vel_r;
+		CurrentPosition.x = PlayerVel_r;
 		CurrentPosition.y; //needed?
 		break;
 
 	case ST_RIGHT_W:
 		LOG("WALKING RIGHT");
-		CurrentPosition.x += Player_vel_r;
+		CurrentPosition.x += PlayerVel_r;
 		CurrentPosition.y; //needed?
 		break;
 
 	case ST_RIGHT_R:
 		LOG("RUNNING RIGHT");
-		CurrentPosition.x += Player_vel_r;
+		CurrentPosition.x += PlayerVel_r;
 		CurrentPosition.y; //needed?
 		break;
 
