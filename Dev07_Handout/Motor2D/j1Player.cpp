@@ -27,7 +27,7 @@ bool j1Player::Awake(pugi::xml_node& node)
 	pugi::xml_node player = node.child("player");
 	pugi::xml_node colliders = node.child("colliders");
 	
-	//MAGIC NUMBERS
+	//MAGIC NUMBERS -- config is set up to be filled with them
 	Initial_Pos.x = player.attribute("InitalPos_x").as_uint();
 	Initial_Pos.y = player.attribute("InitalPos_y").as_uint();
 	CurrentPosition = { Initial_Pos.x,Initial_Pos.y };
@@ -35,10 +35,10 @@ bool j1Player::Awake(pugi::xml_node& node)
 	PlayerVel_r = player.attribute("PlayerVel_r").as_float();
 	Gravity = player.attribute("Gravity").as_float();
 	Slide_distance = player.attribute("slide_distance").as_float();
-	main_x = colliders.child("coordinate_x").attribute("value").as_uint(); /*48,75*/
-	main_y = colliders.child("coordinate_y").attribute("value").as_uint();
-	main_Collider->rect.w = colliders.child("width").attribute("value").as_uint();
-	main_Collider->rect.h = colliders.child("height").attribute("value").as_uint();
+	//main_x = colliders.child("coordinate_x").attribute("value").as_uint(); /*48,75*/
+	//main_y = colliders.child("coordinate_y").attribute("value").as_uint();
+	//main_Collider->rect.w = colliders.child("width").attribute("value").as_uint();
+	//main_Collider->rect.h = colliders.child("height").attribute("value").as_uint();
 	return ret;
 }
 
@@ -55,6 +55,7 @@ bool  j1Player::Start()
 
 bool j1Player::PreUpdate()
 {
+	bool ret = true;
 	//SHORTCUTS INPUTS
 	PlayerInput.F1_enabled = App->input->keyboard[SDL_SCANCODE_F1] == KEY_DOWN;
 	PlayerInput.F2_enabled = App->input->keyboard[SDL_SCANCODE_F2] == KEY_DOWN;
@@ -94,7 +95,7 @@ bool j1Player::PreUpdate()
 	}
 
 	//LAYER STATES
-
+	return ret;
 }
 
 

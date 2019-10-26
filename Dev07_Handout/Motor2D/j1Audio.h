@@ -3,6 +3,8 @@
 
 #include "j1Module.h"
 
+
+
 #define DEFAULT_MUSIC_FADE_TIME 2.0f
 
 struct _Mix_Music;

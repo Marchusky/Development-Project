@@ -26,7 +26,7 @@
     <folder>maps/</folder>
   </map>
 
-  <player InitialPos_x="" InitialPos_y="" PlayerVel_w="" PlayerVel_r"" Gravity="" slide_distance="">  </player>
+  <player InitialPos_x="" InitialPos_y="" PlayerVel_w="" PlayerVel_r="" Gravity="" slide_distance="">  </player>
 
   <colliders>
     <main_collider>
