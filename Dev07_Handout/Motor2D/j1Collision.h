@@ -30,7 +30,7 @@ struct Collider
 	Collider(SDL_Rect rectangle, COLLIDER_TYPE type, j1Module* calback = nullptr) :
 		rect(rectangle),
 		type(type),
-		callback(callback)
+		callback(callback) 
 	{};
 
 	void SetPos(int x, int y)

@@ -10,8 +10,9 @@
 // TODO 7: Our custom properties should have one method
 // to ask for the value of a custom property
 // ----------------------------------------------------
-struct Properties
+union Properties
 {
+
 };
 
 // ----------------------------------------------------
@@ -97,7 +98,7 @@ public:
 	bool CleanUp();
 
 	// Load new map
-	bool Load(const char* path);
+	bool Load(const char* path); 
 
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;

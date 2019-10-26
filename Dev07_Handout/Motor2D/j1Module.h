@@ -76,7 +76,7 @@ public:
 	bool		active;
 
 	// Callbacks ---
-	virtual void OnCollision(Collider*, Collider*) {}
+	virtual void OnCollision(Collider* c1, Collider* c2) {}
 };
 
 #endif // __j1MODULE_H__

@@ -11,7 +11,7 @@
 #include "j1Collision.h"
 
 
-j1Player::j1Player()
+j1Player::j1Player() : j1Module()
 {
 	name.create("player");
 }
@@ -41,7 +41,7 @@ bool j1Player::Awake(pugi::xml_node& node)
 	main_rect.h = colliders.child("main_collider").child("height").attribute("value").as_uint();
 	main_rect.x = colliders.child("main_collider").child("coordinate_x").attribute("value").as_uint();
 	main_rect.y = colliders.child("main_collider").child("coordinate_y").attribute("value").as_uint();
-	main_Collider = App->coll->AddCollider(main_rect, COLLIDER_TYPE::PLAYER, this);
+	main_Collider = App->coll->AddCollider(main_rect, COLLIDER_TYPE::PLAYER);
 
 	//--collider ID's
 	WALL_id = colliders.child("tile_types").child("WALL").attribute("value").as_uint();
@@ -192,4 +192,9 @@ bool j1Player::CleanUp()
 	App->tex->UnLoad(Graphics);
 
 	return true;
+}
+
+void j1Player::OnCollision(Collider* c1, Collider* c2)
+{
+	LOG("Well copied");
 }

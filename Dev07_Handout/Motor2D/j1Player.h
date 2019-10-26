@@ -81,6 +81,10 @@ public:
 	bool PostUpdate();
 	bool CleanUp();
 
+	
+	// Callback ---
+	void OnCollision(Collider* c1, Collider*c2);
+	
 	//PLAYER
 	Player_Input	PlayerInput;
 	Current_State	PlayerState;

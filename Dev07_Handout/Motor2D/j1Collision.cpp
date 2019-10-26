@@ -11,6 +11,7 @@
 
 j1Collision::j1Collision()
 {
+	name.create("collison"); //that's to fix the config file ids declaration inside player node
 
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 		colliders[i] = nullptr;
@@ -58,10 +59,9 @@ bool j1Collision::Awake(pugi::xml_node& node)
 
 }
 
-bool j1Collision::PostUpdate()
+bool j1Collision::PostUpdate() //BIG ERROR HERE, CALLBACK ACCESSES WEIRD PLACES
 {
 	bool ret = true; 
-	return ret;
 	
 	// Calculate collisions
 	Collider* c1;
@@ -83,13 +83,9 @@ bool j1Collision::PostUpdate()
 
 			c2 = colliders[k];
 
-			if (c1->CheckCollision(c2->rect) == true)
+			if (c1->CheckCollision(c2->rect) == true && matrix[c2->type][c1->type])
 			{
-				if (matrix[c1->type][c2->type] && c1->callback)
-				c1->callback->OnCollision(c1, c2);
-
-				if (matrix[c2->type][c1->type] && c2->callback)
-				c2->callback->OnCollision(c2, c1);
+				App->player->OnCollision(c1, c2);
 			}
 
 		}

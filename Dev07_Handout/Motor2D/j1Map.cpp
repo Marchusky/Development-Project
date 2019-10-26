@@ -445,16 +445,16 @@ bool j1Map::SetCollisionLayout(pugi::xml_node& node)
 
 								if (tile_id == App->player->WALL_id)
 								{
-									App->coll->AddCollider(tile_rect, COLLIDER_TYPE::WALL, this);
+									App->coll->AddCollider(tile_rect, COLLIDER_TYPE::WALL);
 								}
 								else if (tile_id == App->player->CLIMB_WALL_id)
 								{
-									App->coll->AddCollider(tile_rect, COLLIDER_TYPE::CLIMB_WALL, this);
+									App->coll->AddCollider(tile_rect, COLLIDER_TYPE::CLIMB_WALL);
 
 								}
 								else if (tile_id == App->player->BONUS_id)
 								{
-									App->coll->AddCollider(tile_rect, COLLIDER_TYPE::BONUS, this);
+									App->coll->AddCollider(tile_rect, COLLIDER_TYPE::BONUS);
 
 								}
 							}
