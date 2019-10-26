@@ -762,9 +762,9 @@
  </layer>
  <layer id="4" name="metadata" width="50" height="15">
   <data>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="68"/>
+   <tile gid="52"/>
+   <tile gid="84"/>
    <tile/>
    <tile/>
    <tile/>

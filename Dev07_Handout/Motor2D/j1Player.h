@@ -118,6 +118,10 @@ public:
 public:
 
 	Collider*		main_Collider;
+
+	uint WALL_id;
+	uint CLIMB_WALL_id;
+	uint BONUS_id;
 };
 
 #endif

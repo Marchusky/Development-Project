@@ -1,7 +1,7 @@
 #ifndef _j1COLLISION_H_
 #define _j1COLLISION_H_
 
-#define MAX_COLLIDERS 50
+#define MAX_COLLIDERS 500
 
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
@@ -55,7 +55,7 @@ public:
 	virtual ~j1Collision();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node&);
+	bool Awake(pugi::xml_node& node);
 
 	// Called before the first frame
 	bool Update();

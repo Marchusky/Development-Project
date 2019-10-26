@@ -42,6 +42,12 @@ bool j1Player::Awake(pugi::xml_node& node)
 	main_rect.x = colliders.child("main_collider").child("coordinate_x").attribute("value").as_uint();
 	main_rect.y = colliders.child("main_collider").child("coordinate_y").attribute("value").as_uint();
 	main_Collider = App->coll->AddCollider(main_rect, COLLIDER_TYPE::PLAYER, this);
+
+	//--collider ID's
+	WALL_id = colliders.child("tile_types").child("WALL").attribute("value").as_uint();
+	CLIMB_WALL_id = colliders.child("tile_types").child("CLIMB_WALL").attribute("value").as_uint();
+	BONUS_id = colliders.child("tile_types").child("BONUS").attribute("value").as_uint();
+
 	return ret;
 }
 

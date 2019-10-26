@@ -4,6 +4,8 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Map.h"
+#include "j1Collision.h"
+#include "j1Player.h" //SHOULD NOT BE CALLING PLAYER, BUT IT IS.
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -22,7 +24,6 @@ bool j1Map::Awake(pugi::xml_node& config)
 	bool ret = true;
 
 	folder.create(config.child("folder").child_value());
-
 
 	return ret;
 }
@@ -186,6 +187,8 @@ bool j1Map::Load(const char* file_name)
 	}
 
 	// Load all tilesets info ----------------------------------------------
+
+
 	pugi::xml_node tileset;
 	for(tileset = map_file.child("map").child("tileset"); tileset && ret; tileset = tileset.next_sibling("tileset"))
 	{
@@ -246,6 +249,9 @@ bool j1Map::Load(const char* file_name)
 
 	map_loaded = ret;
 
+	// Create colliders in each tile inside metadata layer
+	ret = SetCollisionLayout(map_file);
+	
 	return ret;
 }
 
@@ -407,7 +413,60 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	return ret;
 }
 
+bool j1Map::SetCollisionLayout(pugi::xml_node& node)
+{
+	bool ret = true;
 
+	SDL_Rect tile_rect;
+	tile_rect.w = data.tile_width;
+	tile_rect.h = data.tile_height;
+		
+		p2List_item<MapLayer*>* item = data.layers.start;
+		//for to iterate every layer
+		for (item; item != nullptr; item = item->next)
+		{
+			if (item->data->name == "metadata")
+			{
+				for (int y = 0; y < data.height; ++y)
+				{
+					for (int x = 0; x < data.width; ++x)
+					{
+						int tile_id = item->data->Get(x, y);
+						if (tile_id > 0)
+						{
+							TileSet* tileset = GetTilesetFromTileId(tile_id);
+							if (tileset != nullptr)
+							{
+								SDL_Rect r = tileset->GetTileRect(tile_id);
+								iPoint pos = MapToWorld(x, y);
+
+								tile_rect.x = pos.x;
+								tile_rect.y = pos.y;
+
+								if (tile_id == App->player->WALL_id)
+								{
+									App->coll->AddCollider(tile_rect, COLLIDER_TYPE::WALL, this);
+								}
+								else if (tile_id == App->player->CLIMB_WALL_id)
+								{
+									App->coll->AddCollider(tile_rect, COLLIDER_TYPE::CLIMB_WALL, this);
+
+								}
+								else if (tile_id == App->player->BONUS_id)
+								{
+									App->coll->AddCollider(tile_rect, COLLIDER_TYPE::BONUS, this);
+
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+			
+		
+	return ret;
+}
 
 // Load a group of properties from a node and fill a list with it
 bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)

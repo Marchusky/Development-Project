@@ -7,6 +7,7 @@
 #include "j1Input.h"
 #include "j1Collision.h"
 #include "j1Player.h"
+#include "j1Map.h"
 
 j1Collision::j1Collision()
 {
@@ -39,9 +40,10 @@ j1Collision::~j1Collision()
 {}
  
 
-bool j1Collision::Awake(pugi::xml_node&)
+bool j1Collision::Awake(pugi::xml_node& node)
 {
 	bool ret = true;
+
 	// Remove all colliders scheduled for deletion
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
@@ -58,9 +60,8 @@ bool j1Collision::Awake(pugi::xml_node&)
 
 bool j1Collision::PostUpdate()
 {
-
-	//--UNCOMMENT WHEN THE PLAYER MODULE IS CREATED--// @MARCHUSKY
 	bool ret = true; 
+	return ret;
 	
 	// Calculate collisions
 	Collider* c1;
