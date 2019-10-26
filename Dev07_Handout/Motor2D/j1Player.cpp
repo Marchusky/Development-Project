@@ -10,6 +10,7 @@
 #include "j1Audio.h"
 #include "j1Collision.h"
 
+
 j1Player::j1Player()
 {
 	name.create("player");
@@ -24,21 +25,23 @@ bool j1Player::Awake(pugi::xml_node& node)
 {
 	bool ret = true;
 
-	pugi::xml_node player = node.child("player");
 	pugi::xml_node colliders = node.child("colliders");
 	
 	//MAGIC NUMBERS -- config is set up to be filled with them
-	Initial_Pos.x = player.attribute("InitalPos_x").as_uint();
-	Initial_Pos.y = player.attribute("InitalPos_y").as_uint();
+	Initial_Pos.x = node.attribute("InitalPos_x").as_uint();
+	Initial_Pos.y = node.attribute("InitalPos_y").as_uint();
 	CurrentPosition = { Initial_Pos.x,Initial_Pos.y };
-	PlayerVel_w = player.attribute("PlayerVel_w").as_float();
-	PlayerVel_r = player.attribute("PlayerVel_r").as_float();
-	Gravity = player.attribute("Gravity").as_float();
-	Slide_distance = player.attribute("slide_distance").as_float();
-	//main_x = colliders.child("coordinate_x").attribute("value").as_uint(); /*48,75*/
-	//main_y = colliders.child("coordinate_y").attribute("value").as_uint();
-	//main_Collider->rect.w = colliders.child("width").attribute("value").as_uint();
-	//main_Collider->rect.h = colliders.child("height").attribute("value").as_uint();
+	PlayerVel_w = node.attribute("PlayerVel_w").as_float();
+	PlayerVel_r = node.attribute("PlayerVel_r").as_float();
+	Gravity = node.attribute("Gravity").as_float();
+	Slide_distance = node.attribute("slide_distance").as_float();
+	//--- main_Collider creation
+	SDL_Rect main_rect;
+	main_rect.w = colliders.child("main_collider").child("width").attribute("value").as_uint();
+	main_rect.h = colliders.child("main_collider").child("height").attribute("value").as_uint();
+	main_rect.x = colliders.child("main_collider").child("coordinate_x").attribute("value").as_uint();
+	main_rect.y = colliders.child("main_collider").child("coordinate_y").attribute("value").as_uint();
+	main_Collider = App->coll->AddCollider(main_rect, COLLIDER_TYPE::PLAYER, this);
 	return ret;
 }
 

@@ -26,14 +26,17 @@
     <folder>maps/</folder>
   </map>
 
-  <player InitialPos_x="" InitialPos_y="" PlayerVel_w="" PlayerVel_r="" Gravity="" slide_distance="">  </player>
-
-  <colliders>
-    <main_collider>
-      <coordinate_x value=""/>
-      <coordinate_y value=""/>
-      <width value=""/>
-      <height value=""/>
-    </main_collider>
-  </colliders>
+  <player InitialPos_x="" InitialPos_y="" PlayerVel_w="" PlayerVel_r="" Gravity="" slide_distance="">  
+    <colliders>
+      <tile_types>
+        <>
+      </tile_types>
+      <main_collider>
+        <coordinate_x value="0"/>
+        <coordinate_y value="0"/>
+        <width value="1024"/>
+        <height value="768"/>
+      </main_collider>
+    </colliders>
+  </player>
 </config>

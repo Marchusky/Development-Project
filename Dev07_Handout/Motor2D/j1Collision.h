@@ -58,7 +58,7 @@ public:
 	bool Awake(pugi::xml_node&);
 
 	// Called before the first frame
-	bool Start();
+	bool Update();
 
 	// Called each loop iteration
 	bool PostUpdate();
@@ -69,11 +69,11 @@ public:
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback = nullptr);
 	void DebugDraw();
 
-private:
+ private:
 
 	Collider* colliders[MAX_COLLIDERS];
 	bool matrix[COLLIDER_MAX][COLLIDER_MAX];
-	bool debug = false;
+	bool debug = true;
 
 };
 

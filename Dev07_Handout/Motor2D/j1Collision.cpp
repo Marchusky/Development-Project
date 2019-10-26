@@ -56,15 +56,6 @@ bool j1Collision::Awake(pugi::xml_node&)
 
 }
 
-// Called before render is available
-bool j1Collision::Start()
-{
-	bool ret = true;
-	DebugDraw();
-
-	return ret;
-}
-
 bool j1Collision::PostUpdate()
 {
 
@@ -133,6 +124,17 @@ void j1Collision::DebugDraw()
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
 			break;
 		
+		case CLIMB_WALL: // blue
+			App->render->DrawQuad(colliders[i]->rect, 0, 0, 255, alpha);
+			break;
+
+		case WALL: // red
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
+			break;
+
+		case BONUS: // yellow
+			App->render->DrawQuad(colliders[i]->rect, 255, 255, 0, alpha);
+			break;
 		} 
 	}
 
@@ -154,6 +156,7 @@ bool j1Collision::CleanUp()
 	return true;
 }
 
+
 Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback)
 {
 	Collider* ret = nullptr;
@@ -167,7 +170,7 @@ Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* 
 		}
 	}
 
-	return ret;
+	return ret; 
 }
 
 // -----------------------------------------------------
@@ -185,4 +188,9 @@ bool Collider::CheckCollision(const SDL_Rect& r) const
 
 	return false;
 }
+
+//-------------------------------------------------------
+
+
+
 #endif

@@ -8,6 +8,7 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Scene.h"
+#include "j1Collision.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -63,6 +64,7 @@ bool j1Scene::Update(float dt)
 		App->render->camera.x -= 1;
 
 	App->map->Draw();
+	App->coll->DebugDraw();
 
 	int x, y;
 	App->input->GetMousePosition(x, y);

@@ -118,8 +118,6 @@ public:
 public:
 
 	Collider*		main_Collider;
-	uint			main_x;
-	uint			main_y;
 };
 
 #endif
