@@ -122,7 +122,13 @@ public:
 	//Jumping
 	Animation		jumping;
 	float			Gravity;
-	//bool			player_can_jump;
+	bool			in_land;
+	bool			falling;
+	bool			jump_available;
+	bool			mid_air;
+	bool			jump_ended;
+	void			grounded();
+	void			jump();
 
 	//Sliding
 	Animation		sliding;
