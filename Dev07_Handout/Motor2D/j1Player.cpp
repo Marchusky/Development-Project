@@ -30,90 +30,90 @@ j1Player::j1Player() : j1Module()
 	idle.PushBack({ 6,90,48,75 });
 	idle.PushBack({ 136,90,48,75 });
 	idle.PushBack({ 266,90,48,75 });
-	//idle.PushBack({ 395,90,48,75 });
-	//idle.PushBack({ 527,90,48,75 });
-	//idle.PushBack({ 659,90,48,75 });
+	/*idle.PushBack({ 395,90,48,75 });
+	idle.PushBack({ 527,90,48,75 });
+	idle.PushBack({ 659,90,48,75 });*/
 
 	idle.speed = 0.25f;
 
 	//WALKING
 
 	walking.PushBack({ 5,219,48,75 });
-	walking.PushBack({ 134,219,48,75 });
-	walking.PushBack({ 263,219,48,75 });
-	walking.PushBack({ 391,219,48,75 });
-	walking.PushBack({ 517,219,48,75 });
-	walking.PushBack({ 646,219,48,75 });
-	walking.PushBack({ 774,219,48,75 });
-	walking.PushBack({ 903,219,48,75 });
-	walking.PushBack({ 1031,219,48,75 });
-	walking.PushBack({ 1154,219,48,75 });
+	walking.PushBack({ 136,219,48,75 });
+	walking.PushBack({ 268,219,48,75 });
+	walking.PushBack({ 397,219,48,75 });
+	walking.PushBack({ 525,219,48,75 });
+	walking.PushBack({ 656,219,48,75 });
+	walking.PushBack({ 785,219,48,75 });
+	walking.PushBack({ 916,219,48,75 });
+	walking.PushBack({ 1047,219,48,75 });
+	walking.PushBack({ 1175,219,48,75 });
 
 	walking.PushBack({ 6,308,48,75 });
-	walking.PushBack({ 134,308,48,75 });
-	walking.PushBack({ 263,308,48,75 });
+	walking.PushBack({ 137,308,48,75 });
+	walking.PushBack({ 266,308,48,75 });
 
-	walking.speed = 0.1f;
+	walking.speed = 0.3f;
 
 	//RUNNING
 	running.PushBack({ 3,457,48,75 });
-	running.PushBack({ 134,457,48,75 });
-	running.PushBack({ 168,457,48,75 });
-	running.PushBack({ 248,457,48,75 });
-	running.PushBack({ 331,457,48,75 });
-	running.PushBack({ 415,457,48,75 });
-	running.PushBack({ 496,457,48,75 });
-	running.PushBack({ 566,457,48,75 });
-	running.PushBack({ 640,457,48,75 });
-	running.PushBack({ 717,457,48,75 });
+	running.PushBack({ 133,457,48,75 });
+	running.PushBack({ 263,457,48,75 });
+	running.PushBack({ 394,457,48,75 });
+	running.PushBack({ 523,457,48,75 });
+	running.PushBack({ 654,457,48,75 });
+	running.PushBack({ 781,457,48,75 });
+	running.PushBack({ 908,457,48,75 });
+	running.PushBack({ 1041,457,48,75 });
+	running.PushBack({ 1174,457,48,75 });
 	 
-	running.PushBack({ 3,219,48,75 });
+	running.PushBack({ 3,547,48,75 });
 
 	running.speed = 0.1f;
 
 	//JUMPING
 	jumping.PushBack({ 23,663,48,75 });
-	jumping.PushBack({ 108,663,48,75 });
-	jumping.PushBack({ 192,663,48,75 });
-	jumping.PushBack({ 271,663,48,75 });
-	jumping.PushBack({ 345,663,48,75 });
-	jumping.PushBack({ 410,663,48,75 });
-	jumping.PushBack({ 473,663,48,75 });
-	jumping.PushBack({ 537,663,48,75 });
-	jumping.PushBack({ 601,663,48,75 });
-	jumping.PushBack({ 664,663,48,75 });
+	jumping.PushBack({ 157,663,48,75 });
+	jumping.PushBack({ 287,663,48,75 });
+	jumping.PushBack({ 412,663,48,75 });
+	jumping.PushBack({ 543,663,48,75 });
+	jumping.PushBack({ 659,663,48,75 });
+	jumping.PushBack({ 788,663,48,75 });
+	jumping.PushBack({ 915,663,48,75 });
+	jumping.PushBack({ 1047,663,48,75 });
+	jumping.PushBack({ 1177,663,75 });
 
 	jumping.PushBack({ 6,749,48,75 });
-	jumping.PushBack({ 69,749,48,75 });
-	jumping.PushBack({ 141,749,48,75 });
-	jumping.PushBack({ 219,749,48,75 });
-	jumping.PushBack({ 302,749,48,75 });
-	jumping.PushBack({ 385,749,48,75 });
+	jumping.PushBack({ 136,749,48,75 });
+	jumping.PushBack({ 275,749,48,75 });
+	jumping.PushBack({ 411,749,48,75 });
+	jumping.PushBack({ 542,749,48,75 });
+	jumping.PushBack({ 674,749,48,75 });
 	
 	jumping.speed = 0.1f;
 
 	//SLIDING
 	sliding.PushBack({ 3,881,76,75 });
-	sliding.PushBack({ 57,881,76,75 });
-	sliding.PushBack({ 110,881,76,75 });
-	sliding.PushBack({ 163,881,76,75 });
-	sliding.PushBack({ 215,881,76,75 });
-	sliding.PushBack({ 267,881,76,75 });
-	sliding.PushBack({ 319,881,76,75 });
-	sliding.PushBack({ 372,881,76,75 });
-	sliding.PushBack({ 425,881,76,75 });
-	sliding.PushBack({ 479,881,76,75 });
+	sliding.PushBack({ 133,881,76,75 });
+	sliding.PushBack({ 264,881,76,75 });
+	sliding.PushBack({ 422,881,76,75 });
+	sliding.PushBack({ 523,881,76,75 });
+	sliding.PushBack({ 651,881,76,75 });
+	sliding.PushBack({ 781,881,76,75 });
+	sliding.PushBack({ 913,881,76,75 });
+	sliding.PushBack({ 1043,881,76,75 });
+	sliding.PushBack({ 1174,881,76,75 });
 
 	sliding.PushBack({ 3,971,76,75 });
 
 	sliding.speed = 0.1f;
 
 	//DYING
-	dying.PushBack({ 6,1173,48,75 });
-	dying.PushBack({ 66,1173,48,75 });
-	dying.PushBack({ 122,1173,48,75 });
-	dying.PushBack({ 175,1173,48,75 });
-	dying.PushBack({ 258,1173,48,75 });
+	dying.PushBack({ 6,1086,48,75 });
+	dying.PushBack({ 66,1086,48,75 });
+	dying.PushBack({ 122,1086,48,75 });
+	dying.PushBack({ 175,1086,48,75 });
+	dying.PushBack({ 258,1086,48,75 });
 	dying.PushBack({ 342,1086,48,75 });
 	dying.PushBack({ 426,1086,48,75 });
 	dying.PushBack({ 594,1086,48,75 });
@@ -154,6 +154,7 @@ bool j1Player::Awake(pugi::xml_node& node)
 	PlayerVel_w = player_stats.child("PlayerVel_w").attribute("value").as_uint();
 	PlayerVel_r = player_stats.child("PlayerVel_r").attribute("value").as_uint();
 	Gravity = player_stats.child("Gravity").attribute("value").as_float();
+	falling_velocity = player_stats.child("falling_velocity").attribute("value").as_float();
 	Slide_distance = player_stats.child("slide_distance").attribute("value").as_uint();
 	//--- main_Collider creation
 	PlayerRect.w = player_stats.child("character_width").attribute("value").as_uint();
@@ -267,7 +268,7 @@ bool j1Player::PreUpdate()
 			{
 				PlayerState = ST_RIGHT_W;
 			}
-			if (PlayerInput.Space_enabled)
+			if (PlayerInput.Space_enabled && jump_available)
 			{
 				PlayerState = ST_JUMPING;
 			}
@@ -286,7 +287,7 @@ bool j1Player::PreUpdate()
 			{
 				PlayerState = ST_RIGHT_W;
 			}
-			if (PlayerInput.Space_enabled)
+			if (PlayerInput.Space_enabled && jump_available)
 			{
 				PlayerState = ST_JUMPING;
 			}
@@ -309,7 +310,7 @@ bool j1Player::PreUpdate()
 			{
 				PlayerState = ST_LEFT_W;
 			}
-			if (PlayerInput.Space_enabled)
+			if (PlayerInput.Space_enabled && jump_available)
 			{
 				PlayerState = ST_JUMPING;
 			}
@@ -328,7 +329,7 @@ bool j1Player::PreUpdate()
 			{
 				PlayerState = ST_RIGHT_W;
 			}
-			if (PlayerInput.Space_enabled)
+			if (PlayerInput.Space_enabled && jump_available)
 			{
 				PlayerState = ST_JUMPING;
 			}
@@ -350,7 +351,7 @@ bool j1Player::PreUpdate()
 			{
 				PlayerState = ST_IDLE;
 			}
-			if (PlayerInput.Space_enabled)
+			if (PlayerInput.Space_enabled && jump_available)
 			{
 				PlayerState = ST_JUMPING;
 			}
@@ -361,7 +362,7 @@ bool j1Player::PreUpdate()
 			{
 				PlayerState = ST_IDLE;
 			}
-			if (PlayerInput.Space_enabled)
+			if (PlayerInput.Space_enabled && jump_available)
 			{
 				PlayerState = ST_JUMPING;
 			}
@@ -508,7 +509,43 @@ void j1Player::grounded()
 
 void j1Player::jump()
 {
-	if (mid_air);
+	if (mid_air)
+	{
+		falling_velocity -= Gravity;
+
+		if (PlayerInput.A_enabled)
+		{
+			CurrentPosition.x -= PlayerVel_w;
+		}
+		else if (PlayerInput.A_enabled && PlayerInput.Shift_enabled)
+		{
+			CurrentPosition.x -= PlayerVel_r;
+		}
+		else if (PlayerInput.D_enabled)
+		{
+			CurrentPosition.x += PlayerVel_w;
+		}
+		else if (PlayerInput.D_enabled && PlayerInput.Shift_enabled)
+		{
+			CurrentPosition.x -= PlayerVel_r;
+		}
+
+		CurrentPosition.y -= Gravity;
+
+	}
+	else if (!mid_air)
+	{
+		falling_velocity += Gravity;
+		if (in_land)
+		{
+			jump_ended = true;
+			PlayerState = ST_IDLE;
+		}
+		else if (!in_land)
+		{
+			CurrentPosition.y += falling_velocity;
+		}
+	}
 }
 
 void j1Player::OnCollision(Collider* c1, Collider* c2)
