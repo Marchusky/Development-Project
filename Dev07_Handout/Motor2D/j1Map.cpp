@@ -44,7 +44,8 @@ void j1Map::Draw()
 			for (int x = 0; x < data.width; ++x)
 			{
 				int tile_id = item->data->Get(x, y);
-				if (tile_id > 0)
+				if (tile_id > 0 && tile_id != App->player->BONUS_id 
+					&& tile_id != App->player->CLIMB_WALL_id && tile_id != App->player->WALL_id)
 				{
 					TileSet* tileset = GetTilesetFromTileId(tile_id);
 					if (tileset != nullptr)
@@ -473,10 +474,28 @@ bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 {
 	bool ret = false;
 
-	// TODO 6: Fill in the method to fill the custom properties from 
-	// an xml_node
+	//// TODO 6: Fill in the method to fill the custom properties from 
+	//// an xml_node
+	//pugi::xml_node property = node.child("properties").child("property");
 
-
-	
+	//for(property; property; property = property.next_sibling())
+	//{
+	//	if (strcmp(property.attribute("type").as_string(), "bool"))
+	//	{
+	//		properties.property.attribute("value").as_bool();
+	//	}
+	//	else if (strcmp(property.attribute("type").as_string(), "string"))
+	//	{
+	//			property.attribute("value").as_string();
+	//	}
+	//	else if (strcmp(property.attribute("type").as_string(), "int"))
+	//	{
+	//			property.attribute("value").as_int();
+	//	}
+	//	else if (strcmp(property.attribute("type").as_string(), "float"))
+	//	{
+	//		property.attribute("value").as_float();
+	//	}
+	//}
 	return ret;
 }

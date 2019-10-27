@@ -758,6 +758,10 @@
   </data>
  </layer>
  <layer id="4" name="metadata" width="50" height="15" opacity="0.5">
+  <properties>
+   <property name="draw" type="bool" value="false"/>
+   <property name="navigation" type="int" value="1"/>
+  </properties>
   <data>
    <tile/>
    <tile/>

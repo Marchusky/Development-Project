@@ -10,7 +10,7 @@
 // TODO 7: Our custom properties should have one method
 // to ask for the value of a custom property
 // ----------------------------------------------------
-union Properties
+struct Properties
 {
 
 };
@@ -18,11 +18,11 @@ union Properties
 // ----------------------------------------------------
 struct MapLayer
 {
-	p2SString	name;
-	int			width;
-	int			height;
-	uint*		data;
-	Properties	properties;
+	p2SString			name;
+	int					width;
+	int					height;
+	uint*				data;
+	Properties			properties;
 
 	MapLayer() : data(NULL)
 	{}
@@ -117,6 +117,7 @@ private:
 public:
 
 	MapData data;
+	bool drawLayer;
 	
 
 private:
