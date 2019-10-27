@@ -141,22 +141,25 @@ bool j1Player::Awake(pugi::xml_node& node)
 	bool ret = true;
 
 	pugi::xml_node colliders = node.child("colliders");
+	pugi::xml_node player_stats = node.child("player_stats");
+
 	
 	//MAGIC NUMBERS -- config is set up to be filled with them
-	Size.x = node.attribute("character_width").as_uint();
-	Size.y = node.attribute("character_height").as_uint();
-	Initial_Pos.x = node.attribute("InitalPos_x").as_uint();
-	Initial_Pos.y = node.attribute("InitalPos_y").as_uint();
-	CurrentPosition = { Initial_Pos.x,Initial_Pos.y };
-	PlayerVel_w = node.attribute("PlayerVel_w").as_uint();
-	PlayerVel_r = node.attribute("PlayerVel_r").as_uint();
-	Gravity = node.attribute("Gravity").as_float();
-	Slide_distance = node.attribute("slide_distance").as_uint();
+	Size.x = player_stats.child("charachter_width").attribute("value").as_uint();
+	Size.y = player_stats.child("character_height").attribute("value").as_uint();
+	Initial_Pos.x = player_stats.child("InitialPos_x").attribute("value").as_uint();
+	Initial_Pos.y = player_stats.child("InitialPos_y").attribute("value").as_uint();
+	CurrentPosition.x = Initial_Pos.x;
+	CurrentPosition.y = Initial_Pos.y;
+	PlayerVel_w = player_stats.child("PlayerVel_w").attribute("value").as_uint();
+	PlayerVel_r = player_stats.child("PlayerVel_r").attribute("value").as_uint();
+	Gravity = player_stats.child("Gravity").attribute("value").as_float();
+	Slide_distance = player_stats.child("slide_distance").attribute("value").as_uint();
 	//--- main_Collider creation
-	PlayerRect.w = colliders.child("main_collider").child("width").attribute("value").as_uint();
-	PlayerRect.h = colliders.child("main_collider").child("height").attribute("value").as_uint();
-	PlayerRect.x = colliders.child("main_collider").child("coordinate_x").attribute("value").as_uint();
-	PlayerRect.y = colliders.child("main_collider").child("coordinate_y").attribute("value").as_uint();
+	PlayerRect.w = player_stats.child("character_width").attribute("value").as_uint();
+	PlayerRect.h = player_stats.child("character_height").attribute("value").as_uint();
+	PlayerRect.x = player_stats.child("InitialPos_x").attribute("value").as_uint();
+	PlayerRect.y = player_stats.child("InitialPos_y").attribute("value").as_uint();
 	PlayerCollider = App->coll->AddCollider(PlayerRect, COLLIDER_TYPE::PLAYER);
 
 	//--collider ID's
@@ -174,9 +177,8 @@ bool  j1Player::Start()
 
 	PlayerState = ST_IDLE;
 	PlayerRect = { CurrentPosition.x, CurrentPosition.y, Size.x, Size.y };
-	/*PlayerCollider = App->coll->AddCollider(TUS MOVIDAS AQUI SUPONGO)*/ //FALTA ALBERT
 
-
+	God_Mode = false;
 	return true;
 }
 
@@ -217,7 +219,7 @@ bool j1Player::PreUpdate()
 	{
 		PlayerInput.W_enabled = App->input->keyboard[SDL_SCANCODE_W] == KEY_REPEAT;
 		PlayerInput.A_enabled = App->input->keyboard[SDL_SCANCODE_A] == KEY_REPEAT;
-		PlayerInput.S_enabled = App->input->keyboard[SDL_SCANCODE_S] == KEY_REPEAT;
+		PlayerInput.S_enabled = App->input->keyboard[SDL_SCANCODE_S] == KEY_DOWN;
 		PlayerInput.D_enabled = App->input->keyboard[SDL_SCANCODE_D] == KEY_REPEAT;
 		PlayerInput.Shift_enabled = App->input->keyboard[SDL_SCANCODE_LSHIFT] == KEY_REPEAT;
 		PlayerInput.Space_enabled = App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT;
@@ -238,6 +240,7 @@ bool j1Player::PreUpdate()
 		{
 			if (PlayerInput.A_enabled)
 			{
+				LOG("A pressed");
 				PlayerState == ST_LEFT_W;
 			}
 			if (PlayerInput.D_enabled)
@@ -365,6 +368,7 @@ bool j1Player::PreUpdate()
 		//NOT NEEDED IN THIS VERSION
 		if(PlayerState == ST_DYING){}
 	}
+	//GODMODE MOVEMENT
 	else
 	{
 		if (PlayerInput.W_GOD_enabled)
@@ -426,7 +430,7 @@ bool j1Player::Update(float dt)
 
 	case ST_RIGHT_R:
 		LOG("RUNNING RIGHT");
-		CurrentPosition.x += PlayerVel_r;
+		CurrentPosition.x += PlayerVel_r;   
 		current_animation = &running;
 		break;
 
@@ -455,12 +459,11 @@ bool j1Player::Update(float dt)
 
 	//ANIMATIONS
 	rotating_animation = current_animation->GetCurrentFrame();
-	//App->render->Blit(Graphics, CurrentPosition.x, CurrentPosition.y, &rotating_animation, flipped);
-	App->render->Blit(Graphics, 100, 100, &rotating_animation, flipped);
+	App->render->Blit(Graphics, CurrentPosition.x, CurrentPosition.y, &rotating_animation, flipped);
 
 	//PLAYER
 	PlayerCollider->SetPos(CurrentPosition.x, CurrentPosition.y);
-	PlayerRect = { CurrentPosition.x, CurrentPosition.y, 1, 1 };
+	PlayerRect = { CurrentPosition.x, CurrentPosition.y, Size.x, Size.y };
 
 	return true;
 }
