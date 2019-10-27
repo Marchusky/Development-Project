@@ -62,8 +62,10 @@ private:
 public:
 	//AUDIO
 
+
 	//SHORTCUTS
 	bool God_Mode = false;
+
 
 	//TESTING - TEMPORAL
 	float Floor = CurrentPosition.y; //Movement
@@ -85,18 +87,29 @@ public:
 	// Callback ---
 	void OnCollision(Collider* c1, Collider*c2);
 	
+
 	//PLAYER
+	iPoint			Size;
+	SDL_Rect		PlayerRect;
 	Player_Input	PlayerInput;
 	Current_State	PlayerState;
-	SDL_Rect		PlayerRect;
+
+
 
 	//POSITION
 	iPoint			CurrentPosition;
 	iPoint			StartingPosition;
+	iPoint			ActualizedPosition;
 	float			PlayerVel_w;
 	float			PlayerVel_r;
 	SDL_Texture*	Graphics = nullptr;
 
+
+	//ANIMATION
+	//Draw diferents animations
+	Animation*		current_animation;
+	SDL_Rect		rotating_animation;
+	bool			flipped = false;
 	//Idle
 	Animation		idle;
 
@@ -109,19 +122,22 @@ public:
 	//Jumping
 	Animation		jumping;
 	float			Gravity;
+	//bool			player_can_jump;
 
 	//Sliding
 	Animation		sliding;
 	float			Slide_distance;
+
 	//Climbing
 	Animation		climbing;
 
 	//Dying
 	Animation		dying;
 
+
 public:
 
-	Collider*		main_Collider;
+	Collider*		PlayerCollider;
 
 	uint WALL_id;
 	uint CLIMB_WALL_id;

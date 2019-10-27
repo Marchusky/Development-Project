@@ -7,7 +7,7 @@
   </app>
 	
   <renderer>
-    <vsync value="false"/>
+    <vsync value="true"/>
   </renderer>
 
   <window>
@@ -26,7 +26,7 @@
     <folder>maps/</folder>
   </map>
 
-  <player InitialPos_x="" InitialPos_y="" PlayerVel_w="" PlayerVel_r="" Gravity="" slide_distance="">  
+  <player character_width="48" character_height="75" InitialPos_x="100" InitialPos_y="100" PlayerVel_w="1" PlayerVel_r="2" Gravity="10.0f" slide_distance="40" >  
     <colliders>
       <tile_types>
         <WALL value="68"/>
@@ -36,7 +36,7 @@
       <main_collider>
         <coordinate_x value="0"/>
         <coordinate_y value="0"/>
-        <width value="40"/>
+        <width value="48"/>
         <height value="75"/>
       </main_collider>
     </colliders>
