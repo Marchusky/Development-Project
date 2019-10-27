@@ -235,6 +235,8 @@ bool j1Player::PreUpdate()
 	//PLAYER STATES
 	if (God_Mode == false)
 	{
+		CurrentPosition.y += Gravity;
+
 		if (PlayerState == ST_IDLE)
 		{
 			if (PlayerInput.A_enabled)
@@ -490,18 +492,58 @@ bool j1Player::CleanUp()
 
 void j1Player::OnCollision(Collider* c1, Collider* c2)
 {
-	//if ((c1->type == COLLIDER_TYPE::WALL && c2->type == COLLIDER_TYPE::PLAYER))// DEBUG --> MUST BE CHANGED BY SIDE COLLISION OR TOP/BOTTOM COLLISION N
-	//{
-	//	// c2->rect.y+c2->rect.h NO PUEDE SER MÁS GRANDE QUE c1->rect.y
-	//}
-	//(c1->type == COLLIDER_TYPE::PLAYER && c2->type == COLLIDER_TYPE::WALL))
+	if (c1->type == PLAYER)
+	{
+		if (c1->rect.y < (c2->rect.y + c2->rect.h) && c1->rect.y < c2->rect.y
+			&& (c1->rect.y + c1->rect.h) >= c2->rect.y && (c1->rect.y + c1->rect.h) < (c2->rect.y + c2->rect.h)) //Collision from top
+		{
+			c1->rect.y = c2->rect.y - c1->rect.h;
+		}
 
-	//if (c1->type == COLLIDER_TYPE::CLIMB_WALL && c2->type == COLLIDER_TYPE::PLAYER) //c2 - arriba, c1 - abajo
-	//{
-	//	//la posición del jugador no tiene que cambiar en el EJE X mientras esté en contacto desde arriba con un collider de tipo climb_wall.
-	//	if (c2->rect.y < (c1->rect.y + c1->rect.h) && c2->rect.y <= (c1->rect.y + c1->rect.h))//choque desde arriba
-	//	{
-	//		//EJE X invariable
-	//	}
-	//}
+		if (c1->rect.y > c2->rect.y && c1->rect.y < (c2->rect.y + c2->rect.h) &&
+			(c1->rect.y + c1->rect.h)>(c2->rect.y + c2->rect.h) && (c1->rect.y + c1->rect.h) > c2->rect.y)//collision from bottom
+		{
+			c1->rect.y = c2->rect.y + c2->rect.h;
+		}
+
+		if (c1->rect.x > c2->rect.x && c1->rect.x < (c2->rect.x + c2->rect.w) && 
+			(c1->rect.x + c1->rect.w) > c2->rect.x && (c1->rect.x + c1->rect.w) > (c2->rect.x + c2->rect.w)) //collision from right side
+		{
+			c1->rect.x = c2->rect.x + c2->rect.w;
+		}
+
+		if (c1->rect.x < c2->rect.x && c1->rect.x < (c2->rect.x + c2->rect.w) &&
+			(c1->rect.x + c1->rect.w) > c2->rect.x && (c1->rect.x + c1->rect.w) < (c2->rect.x + c2->rect.w))//collision from left side
+		{
+			c1->rect.x = c2->rect.x - c1->rect.w;
+		}
+	}
+
+	if (c2->type == PLAYER)
+	{
+		if (c2->rect.y < (c1->rect.y + c1->rect.h) && c2->rect.y < c1->rect.y &&
+			(c2->rect.y + c2->rect.h) >= c1->rect.y && (c2->rect.y + c2->rect.h) < (c1->rect.y + c1->rect.h)) //Collision from top
+		{
+			c2->rect.y = c1->rect.y - c2->rect.h;
+		}
+
+		if (c2->rect.y > c1->rect.y && c2->rect.y < (c1->rect.y + c1->rect.h) &&
+			(c2->rect.y + c2->rect.h)>(c1->rect.y + c1->rect.h) && (c2->rect.y + c2->rect.h) > c1->rect.y)//collison from bottom
+		{
+			c2->rect.y = c1->rect.y + c1->rect.h;
+		}
+
+		if (c2->rect.x > c1->rect.x && c2->rect.x < (c1->rect.x + c1->rect.w) &&
+			(c2->rect.x + c2->rect.w) > c1->rect.x && (c2->rect.x + c2->rect.w) > (c1->rect.x + c1->rect.w)) //collision from right side
+		{
+			c2->rect.x = c1->rect.x + c1->rect.w;
+		}
+
+		if (c2->rect.x < c1->rect.x && c2->rect.x < (c1->rect.x + c1->rect.w) &&
+			(c2->rect.x + c2->rect.w) > c1->rect.x && (c2->rect.x + c2->rect.w) < (c1->rect.x + c1->rect.w))//collision from left side
+		{
+			c2->rect.x = c1->rect.x - c2->rect.w;
+		}
+	}
+
 }
