@@ -519,25 +519,25 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		if (c1->rect.y < (c2->rect.y + c2->rect.h) && c1->rect.y < c2->rect.y
 			&& (c1->rect.y + c1->rect.h) >= c2->rect.y && (c1->rect.y + c1->rect.h) < (c2->rect.y + c2->rect.h)) //Collision from top
 		{
-			c1->rect.y = c2->rect.y - c1->rect.h;
+			CurrentPosition.y = c2->rect.y - c1->rect.h ;
 		}
 
-		if (c1->rect.y > c2->rect.y && c1->rect.y < (c2->rect.y + c2->rect.h) &&
+		else if (c1->rect.y > c2->rect.y && c1->rect.y < (c2->rect.y + c2->rect.h) &&
 			(c1->rect.y + c1->rect.h)>(c2->rect.y + c2->rect.h) && (c1->rect.y + c1->rect.h) > c2->rect.y)//collision from bottom
 		{
-			c1->rect.y = c2->rect.y + c2->rect.h;
+			CurrentPosition.y = c2->rect.y + c2->rect.h ;
 		}
 
-		if (c1->rect.x > c2->rect.x && c1->rect.x < (c2->rect.x + c2->rect.w) && 
+		else if (c1->rect.x > c2->rect.x && c1->rect.x < (c2->rect.x + c2->rect.w) && 
 			(c1->rect.x + c1->rect.w) > c2->rect.x && (c1->rect.x + c1->rect.w) > (c2->rect.x + c2->rect.w)) //collision from right side
 		{
-			c1->rect.x = c2->rect.x + c2->rect.w;
+			CurrentPosition.x = c2->rect.x + c2->rect.w ;
 		}
 
-		if (c1->rect.x < c2->rect.x && c1->rect.x < (c2->rect.x + c2->rect.w) &&
+		else if (c1->rect.x < c2->rect.x && c1->rect.x < (c2->rect.x + c2->rect.w) &&
 			(c1->rect.x + c1->rect.w) > c2->rect.x && (c1->rect.x + c1->rect.w) < (c2->rect.x + c2->rect.w))//collision from left side
 		{
-			c1->rect.x = c2->rect.x - c1->rect.w;
+			CurrentPosition.x = c2->rect.x - c1->rect.w ;
 		}
 	}
 
@@ -546,25 +546,25 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		if (c2->rect.y < (c1->rect.y + c1->rect.h) && c2->rect.y < c1->rect.y &&
 			(c2->rect.y + c2->rect.h) >= c1->rect.y && (c2->rect.y + c2->rect.h) < (c1->rect.y + c1->rect.h)) //Collision from top
 		{
-			c2->rect.y = c1->rect.y - c2->rect.h;
+			CurrentPosition.y = c1->rect.y - c2->rect.h ;
 		}
 
-		if (c2->rect.y > c1->rect.y && c2->rect.y < (c1->rect.y + c1->rect.h) &&
+		else if (c2->rect.y > c1->rect.y && c2->rect.y < (c1->rect.y + c1->rect.h) &&
 			(c2->rect.y + c2->rect.h)>(c1->rect.y + c1->rect.h) && (c2->rect.y + c2->rect.h) > c1->rect.y)//collison from bottom
 		{
-			c2->rect.y = c1->rect.y + c1->rect.h;
+			CurrentPosition.y = c1->rect.y + c1->rect.h  ;
 		}
 
-		if (c2->rect.x > c1->rect.x && c2->rect.x < (c1->rect.x + c1->rect.w) &&
+		else if (c2->rect.x > c1->rect.x && c2->rect.x < (c1->rect.x + c1->rect.w) &&
 			(c2->rect.x + c2->rect.w) > c1->rect.x && (c2->rect.x + c2->rect.w) > (c1->rect.x + c1->rect.w)) //collision from right side
 		{
-			c2->rect.x = c1->rect.x + c1->rect.w;
+			CurrentPosition.x = c1->rect.x + c1->rect.w ;
 		}
 
-		if (c2->rect.x < c1->rect.x && c2->rect.x < (c1->rect.x + c1->rect.w) &&
+		else if (c2->rect.x < c1->rect.x && c2->rect.x < (c1->rect.x + c1->rect.w) &&
 			(c2->rect.x + c2->rect.w) > c1->rect.x && (c2->rect.x + c2->rect.w) < (c1->rect.x + c1->rect.w))//collision from left side
 		{
-			c2->rect.x = c1->rect.x - c2->rect.w;
+			CurrentPosition.x = c1->rect.x - c2->rect.w ;
 		}
 	}
 }
