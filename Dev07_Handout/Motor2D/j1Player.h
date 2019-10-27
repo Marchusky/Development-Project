@@ -146,6 +146,11 @@ public:
 	//--- Colliders
 	Collider*		PlayerCollider;
 
+	bool lateral_collision_left = false;
+	bool lateral_collision_right = false;
+	bool top_collision = false;
+	bool bottom_collision = false;
+
 	uint WALL_id;
 	uint CLIMB_WALL_id;
 	uint BONUS_id;
