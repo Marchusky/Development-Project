@@ -226,7 +226,6 @@ bool j1Player::PreUpdate()
 	}
 	else
 	{
-		PlayerCollider->to_delete = true;
 		PlayerInput.W_GOD_enabled = App->input->keyboard[SDL_SCANCODE_W] == KEY_REPEAT;
 		PlayerInput.A_GOD_enabled = App->input->keyboard[SDL_SCANCODE_A] == KEY_REPEAT;
 		PlayerInput.S_GOD_enabled = App->input->keyboard[SDL_SCANCODE_S] == KEY_REPEAT;
@@ -489,5 +488,18 @@ bool j1Player::CleanUp()
 
 void j1Player::OnCollision(Collider* c1, Collider* c2)
 {
-	LOG("thx");
+	//if ((c1->type == COLLIDER_TYPE::WALL && c2->type == COLLIDER_TYPE::PLAYER))// DEBUG --> MUST BE CHANGED BY SIDE COLLISION OR TOP/BOTTOM COLLISION N
+	//{
+	//	// c2->rect.y+c2->rect.h NO PUEDE SER MÁS GRANDE QUE c1->rect.y
+	//}
+	//(c1->type == COLLIDER_TYPE::PLAYER && c2->type == COLLIDER_TYPE::WALL))
+
+	//if (c1->type == COLLIDER_TYPE::CLIMB_WALL && c2->type == COLLIDER_TYPE::PLAYER) //c2 - arriba, c1 - abajo
+	//{
+	//	//la posición del jugador no tiene que cambiar en el EJE X mientras esté en contacto desde arriba con un collider de tipo climb_wall.
+	//	if (c2->rect.y < (c1->rect.y + c1->rect.h) && c2->rect.y <= (c1->rect.y + c1->rect.h))//choque desde arriba
+	//	{
+	//		//EJE X invariable
+	//	}
+	//}
 }

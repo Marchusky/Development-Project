@@ -137,6 +137,7 @@ public:
 
 public:
 
+	//--- Colliders
 	Collider*		PlayerCollider;
 
 	uint WALL_id;
