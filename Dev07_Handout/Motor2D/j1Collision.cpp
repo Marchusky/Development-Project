@@ -11,7 +11,7 @@
 
 j1Collision::j1Collision()
 {
-	name.create("collison"); //that's to fix the config file ids declaration inside player node
+	
 
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 		colliders[i] = nullptr;
@@ -45,7 +45,16 @@ bool j1Collision::Awake(pugi::xml_node& node)
 {
 	bool ret = true;
 
-	// Remove all colliders scheduled for deletion
+	name.create("collison"); //that's to fix the config file ids declaration inside player node
+
+	return ret;
+}
+
+bool j1Collision::PostUpdate() //BIG ERROR HERE, CALLBACK ACCESSES WEIRD PLACES
+{
+	bool ret = true; 
+
+	// Remove all colliders scheduled for deletion 
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
 		if (colliders[i] != nullptr && colliders[i]->to_delete == true)
@@ -54,14 +63,6 @@ bool j1Collision::Awake(pugi::xml_node& node)
 			colliders[i] = nullptr;
 		}
 	}
-
-	return ret;
-
-}
-
-bool j1Collision::PostUpdate() //BIG ERROR HERE, CALLBACK ACCESSES WEIRD PLACES
-{
-	bool ret = true; 
 	
 	// Calculate collisions
 	Collider* c1;
@@ -83,7 +84,7 @@ bool j1Collision::PostUpdate() //BIG ERROR HERE, CALLBACK ACCESSES WEIRD PLACES
 
 			c2 = colliders[k];
 
-			if (c1->CheckCollision(c2->rect) == true && matrix[c2->type][c1->type])
+			if (c1->CheckCollision(c2->rect) == true && matrix[c2->type][c1->type] && App->player->God_Mode != true)
 			{
 				App->player->OnCollision(c1, c2);
 			}
