@@ -23,7 +23,6 @@ struct Player_Input
 	bool F6_enabled;	//Load game (falta)
 	bool F7_enabled;	//Show Colliders (falta)
 	bool F8_enabled;	//God Mode (falta)
-	bool F11_enabled;	//FOCUS CAMERA ON THE  PLAYER}; (falta). needed?
 
 	//PLAYER
 	bool W_enabled;		//Climb
