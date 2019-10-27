@@ -414,15 +414,13 @@ bool j1Player::Update(float dt)
 	case ST_LEFT_R:
 		LOG("RUNNING LEFT");
 		flipped = true;
-		CurrentPosition.x = PlayerVel_r;
+		CurrentPosition.x -= PlayerVel_r;
 		current_animation = &running;
 		break;
 
 	case ST_RIGHT_W:
 		LOG("WALKING RIGHT");
-		//CurrentPosition.x += PlayerVel_w;
-		CurrentPosition.x += 4;
-
+		CurrentPosition.x += PlayerVel_w;
 		current_animation = &walking;
 		break;
 
@@ -461,9 +459,8 @@ bool j1Player::Update(float dt)
 	App->render->Blit(Graphics, 100, 100, &rotating_animation, flipped);
 
 	//PLAYER
-	//PlayerCollider->SetPos(CurrentPosition.x, CurrentPosition.y); //FALTA ALBERT, descomentar cuando hagas el FALTA de mas arriba, esta linea basicamente dibuja el collider
-	PlayerRect = { CurrentPosition.x, CurrentPosition.y, 1, 1 }; //medir a papa noel FALTA
-	//App->render->DrawQuad(PlayerRect, 255, 255, 0); needed?
+	PlayerCollider->SetPos(CurrentPosition.x, CurrentPosition.y);
+	PlayerRect = { CurrentPosition.x, CurrentPosition.y, 1, 1 };
 
 	return true;
 }
