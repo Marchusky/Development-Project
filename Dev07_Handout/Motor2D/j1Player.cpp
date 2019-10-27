@@ -240,15 +240,15 @@ bool j1Player::PreUpdate()
 			if (PlayerInput.A_enabled)
 			{
 				LOG("A pressed");
-				PlayerState == ST_LEFT_W;
+				PlayerState = ST_LEFT_W;
 			}
 			if (PlayerInput.D_enabled)
 			{
-				PlayerState == ST_RIGHT_W;
+				PlayerState = ST_RIGHT_W;
 			}
 			if (PlayerInput.Space_enabled)
 			{
-				PlayerState == ST_JUMPING;
+				PlayerState = ST_JUMPING;
 			}
 		}
 		if (PlayerState == ST_LEFT_W)
@@ -259,15 +259,15 @@ bool j1Player::PreUpdate()
 			}
 			if (PlayerInput.Shift_enabled)
 			{
-				PlayerState == ST_LEFT_R;
+				PlayerState = ST_LEFT_R;
 			}
 			if (PlayerInput.D_enabled)
 			{
-				PlayerState == ST_RIGHT_W;
+				PlayerState = ST_RIGHT_W;
 			}
 			if (PlayerInput.Space_enabled)
 			{
-				PlayerState == ST_JUMPING;
+				PlayerState = ST_JUMPING;
 			}
 		}
 		if (PlayerState == ST_LEFT_R)
@@ -278,19 +278,19 @@ bool j1Player::PreUpdate()
 			}
 			if (!PlayerInput.Shift_enabled)
 			{
-				PlayerState == ST_LEFT_W;
+				PlayerState = ST_LEFT_W;
 			}
 			if (PlayerInput.D_enabled)
 			{
-				PlayerState == ST_RIGHT_W;
+				PlayerState = ST_RIGHT_W;
 			}
 			if (PlayerInput.Space_enabled)
 			{
-				PlayerState == ST_JUMPING;
+				PlayerState = ST_JUMPING;
 			}
 			if (PlayerInput.S_enabled)
 			{
-				PlayerState == ST_SLIDING;
+				PlayerState = ST_SLIDING;
 			}
 		}
 		if (PlayerState == ST_RIGHT_W)
@@ -301,15 +301,15 @@ bool j1Player::PreUpdate()
 			}
 			if (PlayerInput.Shift_enabled)
 			{
-				PlayerState == ST_RIGHT_R;
+				PlayerState = ST_RIGHT_R;
 			}
-			if (PlayerInput.D_enabled)
+			if (PlayerInput.A_enabled)
 			{
-				PlayerState == ST_LEFT_W;
+				PlayerState = ST_LEFT_W;
 			}
 			if (PlayerInput.Space_enabled)
 			{
-				PlayerState == ST_JUMPING;
+				PlayerState = ST_JUMPING;
 			}
 		}
 		if (PlayerState == ST_RIGHT_R)
@@ -320,55 +320,55 @@ bool j1Player::PreUpdate()
 			}
 			if (!PlayerInput.Shift_enabled)
 			{
-				PlayerState == ST_RIGHT_W;
+				PlayerState = ST_RIGHT_W;
 			}
 			if (PlayerInput.D_enabled)
 			{
-				PlayerState == ST_RIGHT_W;
+				PlayerState = ST_RIGHT_W;
 			}
 			if (PlayerInput.Space_enabled)
 			{
-				PlayerState == ST_JUMPING;
+				PlayerState = ST_JUMPING;
 			}
 			if (PlayerInput.S_enabled)
 			{
-				PlayerState == ST_SLIDING;
+				PlayerState = ST_SLIDING;
 			}
 		}
 		if (PlayerState == ST_JUMPING)
 		{
 			if (PlayerInput.W_enabled)
 			{
-				PlayerState == ST_CLIMBING;
+				PlayerState = ST_CLIMBING;
 			}
 		}
 		if (PlayerState == ST_SLIDING)
 		{
 			if (!PlayerInput.S_enabled)
 			{
-				PlayerState == ST_IDLE;
+				PlayerState = ST_IDLE;
 			}
 			if (PlayerInput.Space_enabled)
 			{
-				PlayerState == ST_JUMPING;
+				PlayerState = ST_JUMPING;
 			}
 		}
 		if (PlayerState == ST_CLIMBING)
 		{
 			if (!PlayerInput.W_enabled)
 			{
-				PlayerState == ST_IDLE;
+				PlayerState = ST_IDLE;
 			}
 			if (PlayerInput.Space_enabled)
 			{
-				PlayerState == ST_JUMPING;
+				PlayerState = ST_JUMPING;
 			}
 		}
 		//NOT NEEDED IN THIS VERSION
 		if(PlayerState == ST_DYING){}
 	}
 	//GODMODE MOVEMENT
-	else
+	else if (God_Mode == true)
 	{
 		if (PlayerInput.W_GOD_enabled)
 		{
@@ -452,17 +452,19 @@ bool j1Player::Update(float dt)
 	case ST_DYING:
 		LOG("DASH");
 		current_animation = &dying;
-		//FALTA
 		break;
 	}
+
+	//PLAYER
+	PlayerRect = { CurrentPosition.x, CurrentPosition.y, Size.x, Size.y };
+	PlayerCollider->SetPos(CurrentPosition.x, CurrentPosition.y);
+
 
 	//ANIMATIONS
 	rotating_animation = current_animation->GetCurrentFrame();
 	App->render->Blit(Graphics, CurrentPosition.x, CurrentPosition.y, &rotating_animation, flipped);
 
-	//PLAYER
-	PlayerCollider->SetPos(CurrentPosition.x, CurrentPosition.y);
-	PlayerRect = { CurrentPosition.x, CurrentPosition.y, Size.x, Size.y };
+	
 
 	return true;
 }
