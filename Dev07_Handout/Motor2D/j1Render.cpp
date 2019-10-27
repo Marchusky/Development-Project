@@ -3,6 +3,7 @@
 #include "j1App.h"
 #include "j1Window.h"
 #include "j1Render.h"
+#include "j1Player.h"
 
 #define VSYNC true
 
@@ -128,22 +129,38 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	bool ret = true;
 	uint scale = App->win->GetScale();
 
-	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x * scale;
-	rect.y = (int)(camera.y * speed) + y * scale;
-
-	if(section != NULL)
+	SDL_Rect sprites;
+	if (flip)
 	{
-		rect.w = section->w;
-		rect.h = section->h;
+		sprites.x = (int)(camera.x * speed) + x * scale + 48;
+		sprites.y = (int)(camera.y * speed) + y * scale;
 	}
 	else
 	{
-		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
+		sprites.x = (int)(camera.x * speed) + x * scale;
+		sprites.y = (int)(camera.y * speed) + y * scale;
 	}
 
-	rect.w *= scale;
-	rect.h *= scale;
+	if(section != NULL)
+	{
+		if (flip)
+		{
+			sprites.w = -section->w;
+			sprites.h = section->h;
+		}
+		else
+		{
+			sprites.w = section->w;
+			sprites.h = section->h;
+		}
+	}
+	else
+	{
+		SDL_QueryTexture(texture, NULL, NULL, &sprites.w, &sprites.h);
+	}
+
+	sprites.w *= scale;
+	sprites.h *= scale;
 
 	SDL_Point* p = NULL;
 	SDL_Point pivot;
@@ -155,7 +172,7 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 		p = &pivot;
 	}
 
-	if(SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, SDL_FLIP_NONE) != 0)
+	if(SDL_RenderCopyEx(renderer, texture, section, &sprites, angle, p, SDL_FLIP_NONE) != 0)
 	{
 		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
 		ret = false;

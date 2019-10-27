@@ -27,14 +27,14 @@ j1Player::j1Player() : j1Module()
 	idle.PushBack({ 1045,1,48,75 });
 	idle.PushBack({ 1175,1,48,75 });
 		 
-	idle.PushBack({ 6,92,48,75 });
-	idle.PushBack({ 137,92,48,75 });
-	idle.PushBack({ 268,92,48,75 });
-	idle.PushBack({ 399,92,48,75 });
-	idle.PushBack({ 530,92,48,75 });
-	idle.PushBack({ 661,92,48,75 });
+	idle.PushBack({ 6,90,48,75 });
+	idle.PushBack({ 136,90,48,75 });
+	idle.PushBack({ 266,90,48,75 });
+	//idle.PushBack({ 395,90,48,75 });
+	//idle.PushBack({ 527,90,48,75 });
+	//idle.PushBack({ 659,90,48,75 });
 
-	idle.speed = 0.15f;
+	idle.speed = 0.25f;
 
 	//WALKING
 
@@ -315,7 +315,7 @@ bool j1Player::PreUpdate()
 		}
 		if (PlayerState == ST_RIGHT_R)
 		{
-			if (!PlayerInput.A_enabled)
+			if (!PlayerInput.D_enabled)
 			{
 				PlayerState = ST_IDLE;
 			}
@@ -323,7 +323,7 @@ bool j1Player::PreUpdate()
 			{
 				PlayerState = ST_RIGHT_W;
 			}
-			if (PlayerInput.D_enabled)
+			if (PlayerInput.A_enabled)
 			{
 				PlayerState = ST_RIGHT_W;
 			}
@@ -424,34 +424,37 @@ bool j1Player::Update(float dt)
 
 	case ST_RIGHT_W:
 		LOG("WALKING RIGHT");
+		flipped = false;
 		CurrentPosition.x += PlayerVel_w;
 		current_animation = &walking;
 		break;
 
 	case ST_RIGHT_R:
 		LOG("RUNNING RIGHT");
+		flipped = false;
 		CurrentPosition.x += PlayerVel_r;   
 		current_animation = &running;
 		break;
 
 	case ST_JUMPING:
 		LOG("JUMPING");
+
 		current_animation = &jumping;
 		//FALTA
 		break;
 
 	case ST_SLIDING:
-		LOG("DASH");
+		LOG("SLIDING");
 		current_animation = &sliding;
 		break;
 
 	case ST_CLIMBING:
-		LOG("DASH");
+		LOG("CLIMBING");
 		current_animation = &climbing;
 		break;
 
 	case ST_DYING:
-		LOG("DASH");
+		LOG("DYING");
 		current_animation = &dying;
 		break;
 	}
@@ -492,4 +495,22 @@ bool j1Player::CleanUp()
 void j1Player::OnCollision(Collider* c1, Collider* c2)
 {
 	LOG("thx");
+}
+
+void j1Player::grounded()
+{
+	jump_available = false;
+	if (in_land == true)
+	{
+		jump_available = true;
+	}
+	else
+	{
+		jump_available = false;
+	}
+}
+
+void j1Player::jump()
+{
+	if (mid_air);
 }
