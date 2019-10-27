@@ -122,6 +122,7 @@ public:
 	//Jumping
 	Animation		jumping;
 	float			Gravity;
+	float			falling_velocity;
 	bool			in_land;
 	bool			falling;
 	bool			jump_available;
