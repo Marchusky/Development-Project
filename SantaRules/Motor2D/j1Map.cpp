@@ -33,8 +33,6 @@ void j1Map::Draw()
 	if(map_loaded == false)
 		return;
 
-	// TODO 4: Make sure we draw all the layers and not just the first one
-
 	p2List_item<MapLayer*>* item = data.layers.start;
 	//for to iterate every layer
 	for (item; item != nullptr; item = item->next)
@@ -45,7 +43,7 @@ void j1Map::Draw()
 			{
 				int tile_id = item->data->Get(x, y);
 				if (tile_id > 0 && tile_id != App->player->BONUS_id 
-					&& tile_id != App->player->CLIMB_WALL_id && tile_id != App->player->WALL_id)
+					&& tile_id != App->player->CLIMB_WALL_id && tile_id != App->player->WALL_id)//algo me huele a chapuza de última hora aquí (efectivamente es una chapuza que sustituye a las propiedades de capa)
 				{
 					TileSet* tileset = GetTilesetFromTileId(tile_id);
 					if (tileset != nullptr)
@@ -63,8 +61,8 @@ void j1Map::Draw()
 
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
-	// TODO 3: Complete this method so we pick the right
-	// Tileset based on a tile id
+	//Complete this method so we pick the right Tileset based on a tile id
+
 	p2List_item<TileSet*>* actual_tileset = data.tilesets.start;
 	
 	while (actual_tileset->next && id > actual_tileset->next->data->firstgid)
@@ -403,7 +401,7 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	{
 		layer->data = new uint[layer->width*layer->height];
 		memset(layer->data, 0, layer->width*layer->height);
-
+		 
 		int i = 0;
 		for(pugi::xml_node tile = layer_data.child("tile"); tile; tile = tile.next_sibling("tile"))
 		{
@@ -428,6 +426,7 @@ bool j1Map::SetCollisionLayout(pugi::xml_node& node)
 		{
 			if (item->data->name == "metadata")
 			{
+				Metadata = item->data;
 				for (int y = 0; y < data.height; ++y)
 				{
 					for (int x = 0; x < data.width; ++x)

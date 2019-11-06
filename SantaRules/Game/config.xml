@@ -30,7 +30,7 @@
     <player_stats>
       <character_width value="48"/>
       <character_height value="75"/>
-      <InitialPos_x value="200"/>
+      <InitialPos_x value="75"/>
       <InitialPos_y value="20"/>
       <PlayerVel_w value="3"/>
       <PlayerVel_r value="6"/>

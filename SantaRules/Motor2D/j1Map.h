@@ -34,7 +34,12 @@ struct MapLayer
 
 	inline uint Get(int x, int y) const
 	{
-		return data[(y*width) + x];
+		return data[(y*width) + x]; 
+	}
+
+	inline uint GetLayerPositon(int x, int y) const
+	{
+		return (y*width) + x;
 	}
 };
 
@@ -117,6 +122,7 @@ private:
 public:
 
 	MapData data;
+	MapLayer* Metadata;
 	bool drawLayer;
 	
 

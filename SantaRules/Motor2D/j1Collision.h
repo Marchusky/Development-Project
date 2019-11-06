@@ -44,6 +44,9 @@ struct Collider
 		rect.h = h;
 	}
 	bool CheckCollision(const SDL_Rect& r) const;
+
+
+	
 };
 class j1Collision : public j1Module
 {
@@ -68,6 +71,10 @@ public:
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback = nullptr);
 	void DebugDraw();
+
+	//--Check if collision from sides is possible--//
+	bool canCollide_right(uint tile_gid);
+	bool canCollide_top(uint tile_id);
 
  private:
 
