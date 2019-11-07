@@ -569,11 +569,11 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 	if (c1->type == PLAYER)
 	{
 		iPoint wall_position = App->map->WorldToMap(c2->rect.x, c2->rect.y);
+		uint tileid = App->map->Metadata->GetLayerPositon(wall_position.x, wall_position.y);
 
 		if (c1->rect.y < (c2->rect.y + c2->rect.h) && c1->rect.y < c2->rect.y
 			&& (c1->rect.y + c1->rect.h) >= c2->rect.y && (c1->rect.y + c1->rect.h) < (c2->rect.y + c2->rect.h)) //Collision from top
 		{
-			uint tileid = App->map->Metadata->GetLayerPositon(wall_position.x, wall_position.y);
 			if (App->coll->canCollide_top(tileid))
 			{
 				CurrentPosition.y = c2->rect.y - c1->rect.h;
@@ -592,7 +592,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		else if (c1->rect.x > c2->rect.x && c1->rect.x < (c2->rect.x + c2->rect.w) && 
 			(c1->rect.x + c1->rect.w) > c2->rect.x && (c1->rect.x + c1->rect.w) > (c2->rect.x + c2->rect.w)) //collision from right side
 		{
-			if (App->coll->canCollide_right(App->map->Metadata->GetLayerPositon(wall_position.x, wall_position.y)))
+			if (App->coll->canCollide_right(tileid))
 			{
 				CurrentPosition.x = c2->rect.x + c2->rect.w;
 			}
@@ -601,18 +601,22 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		else if (c1->rect.x < c2->rect.x && c1->rect.x < (c2->rect.x + c2->rect.w) &&
 			(c1->rect.x + c1->rect.w) > c2->rect.x && (c1->rect.x + c1->rect.w) < (c2->rect.x + c2->rect.w))//collision from left side
 		{
-			CurrentPosition.x = c2->rect.x - c1->rect.w ;
+			if (App->coll->canCollide_left(tileid))
+			{
+				CurrentPosition.x = c2->rect.x - c1->rect.w;
+			}
 		}
 	}
 
 	if (c2->type == PLAYER)
 	{
 		iPoint wall_position = App->map->WorldToMap(c2->rect.x, c2->rect.y);
+		uint tileid = App->map->Metadata->GetLayerPositon(wall_position.x, wall_position.y);
 
 		if (c2->rect.y < (c1->rect.y + c1->rect.h) && c2->rect.y < c1->rect.y &&
 			(c2->rect.y + c2->rect.h) >= c1->rect.y && (c2->rect.y + c2->rect.h) < (c1->rect.y + c1->rect.h)) //Collision from top
 		{
-			if (App->coll->canCollide_top(App->map->Metadata->GetLayerPositon(wall_position.x, wall_position.y)))
+			if (App->coll->canCollide_top(tileid))
 			{
 				CurrentPosition.y = c1->rect.y - c2->rect.h;
 			}
@@ -621,13 +625,16 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		else if (c2->rect.y > c1->rect.y && c2->rect.y < (c1->rect.y + c1->rect.h) &&
 			(c2->rect.y + c2->rect.h)>(c1->rect.y + c1->rect.h) && (c2->rect.y + c2->rect.h) > c1->rect.y)//collison from bottom
 		{
-			CurrentPosition.y = c1->rect.y + c1->rect.h  ;
+			if (App->coll->canCollide_bottom(tileid))
+			{
+				CurrentPosition.y = c1->rect.y + c1->rect.h;
+			}
 		}
 
 		else if (c2->rect.x > c1->rect.x && c2->rect.x < (c1->rect.x + c1->rect.w) &&
 			(c2->rect.x + c2->rect.w) > c1->rect.x && (c2->rect.x + c2->rect.w) > (c1->rect.x + c1->rect.w)) //collision from right side
 		{
-			if (App->coll->canCollide_right(App->map->Metadata->GetLayerPositon(wall_position.x, wall_position.y)))
+			if (App->coll->canCollide_right(tileid))
 			{
 				CurrentPosition.x = c1->rect.x + c1->rect.w;
 			}
@@ -636,7 +643,10 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		else if (c2->rect.x < c1->rect.x && c2->rect.x < (c1->rect.x + c1->rect.w) &&
 			(c2->rect.x + c2->rect.w) > c1->rect.x && (c2->rect.x + c2->rect.w) < (c1->rect.x + c1->rect.w))//collision from left side
 		{
-			CurrentPosition.x = c1->rect.x - c2->rect.w ;
+			if (App->coll->canCollide_left(tileid))
+			{
+				CurrentPosition.x = c1->rect.x - c2->rect.w;
+			}
 		}
 	}
 }
