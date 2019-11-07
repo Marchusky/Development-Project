@@ -583,7 +583,10 @@ void j1Player::OnCollision(Collider* c1, Collider* c2)
 		else if (c1->rect.y > c2->rect.y && c1->rect.y < (c2->rect.y + c2->rect.h) &&
 			(c1->rect.y + c1->rect.h)>(c2->rect.y + c2->rect.h) && (c1->rect.y + c1->rect.h) > c2->rect.y)//collision from bottom
 		{
-			CurrentPosition.y = c2->rect.y + c2->rect.h ;
+			if (App->coll->canCollide_bottom(tileid))
+			{
+				CurrentPosition.y = c2->rect.y + c2->rect.h;
+			}
 		}
 
 		else if (c1->rect.x > c2->rect.x && c1->rect.x < (c2->rect.x + c2->rect.w) && 

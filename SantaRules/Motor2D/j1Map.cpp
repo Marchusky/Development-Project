@@ -426,7 +426,8 @@ bool j1Map::SetCollisionLayout(pugi::xml_node& node)
 		{
 			if (item->data->name == "metadata")
 			{
-				Metadata = item->data;
+				Metadata = item->data; //Keep a pointer to metadata layer for using it later
+				
 				for (int y = 0; y < data.height; ++y)
 				{
 					for (int x = 0; x < data.width; ++x)

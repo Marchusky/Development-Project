@@ -144,14 +144,33 @@ bool j1Collision::canCollide_right(uint tile_id) //we get this id from the x and
 	bool ret = true;
 	if (App->map->Metadata->data[tile_id] != NULL)
 	{
-		if (App->map->Metadata->data[tile_id - App->map->Metadata->width] != NULL)
+		if (App->map->Metadata->data[tile_id + 1] != NULL)
 		{
-			if (App->map->Metadata->data[tile_id + 1] == App->player->WALL_id || App->map->Metadata->data[tile_id + 1] == App->player->CLIMB_WALL_id)
+			if (App->map->Metadata->data[tile_id + 1] == App->player->WALL_id 
+				|| App->map->Metadata->data[tile_id + 1] == App->player->CLIMB_WALL_id)
 			{
 				ret = false;
 			}
 		}
 	}
+	return ret;
+}
+
+bool j1Collision::canCollide_left(uint tile_id) //we get this id from the x and y value of the collider and with the function get()
+{
+	bool ret = true;
+	if (App->map->Metadata->data[tile_id] != NULL)
+	{
+		if (App->map->Metadata->data[tile_id - 1] != NULL)
+		{
+			if (App->map->Metadata->data[tile_id - 1] == App->player->WALL_id ||
+				App->map->Metadata->data[tile_id - 1] == App->player->CLIMB_WALL_id)
+			{
+				ret = false;
+			}
+		}
+	}
+
 	return ret;
 }
 
@@ -172,6 +191,25 @@ bool j1Collision::canCollide_top(uint tile_id) //we get this id from the x and y
 
 	return ret;
 }
+
+bool j1Collision::canCollide_bottom(uint tile_id) //we get this id from the x and y value of the collider and with the function get()
+{
+	bool ret = true;
+	if (App->map->Metadata->data[tile_id] != NULL)
+	{
+		if (App->map->Metadata->data[tile_id + App->map->Metadata->width] != NULL)
+		{
+			if (App->map->Metadata->data[tile_id + App->map->Metadata->width] == App->player->WALL_id ||
+				App->map->Metadata->data[tile_id + App->map->Metadata->width] == App->player->CLIMB_WALL_id)
+			{
+				ret = false;
+			}
+		}
+	}
+
+	return ret;
+}
+
 // Called before quitting
 bool j1Collision::CleanUp()
 {

@@ -75,6 +75,8 @@ public:
 	//--Check if collision from sides is possible--//
 	bool canCollide_right(uint tile_gid);
 	bool canCollide_top(uint tile_id);
+	bool canCollide_bottom(uint tile_id);
+	bool canCollide_left(uint tile_id);
 
  private:
 
