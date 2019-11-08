@@ -155,8 +155,7 @@ bool j1Collision::canCollide_right(uint tile_id) //we get this id from the x and
 	}
 	return ret;
 }
-
-bool j1Collision::canCollide_left(uint tile_id) //we get this id from the x and y value of the collider and with the function get()
+ bool j1Collision::canCollide_left(uint tile_id) //we get this id from the x and y value of the collider and with the function get()
 {
 	bool ret = true;
 	if (App->map->Metadata->data[tile_id] != NULL)
