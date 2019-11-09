@@ -31,7 +31,7 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->map->Load("platformer_map_0.tmx");
+	App->map->Load("map_1.tmx");
 	
 	return true;
 }

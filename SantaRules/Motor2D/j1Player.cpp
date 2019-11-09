@@ -471,7 +471,8 @@ bool j1Player::Update(float dt)
 	rotating_animation = current_animation->GetCurrentFrame();
 	App->render->Blit(Graphics, CurrentPosition.x, CurrentPosition.y, &rotating_animation, flipped);
 
-	
+	//SET WINDOW POSITION
+	//SDL_SetWindowPosition()
 
 	return true;
 }
