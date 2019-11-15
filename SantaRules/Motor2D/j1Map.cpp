@@ -6,6 +6,7 @@
 #include "j1Map.h"
 #include "j1Collision.h"
 #include "j1Player.h"
+#include "j1Window.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -34,6 +35,10 @@ void j1Map::Draw()
 		return;
 
 	p2List_item<MapLayer*>* item = data.layers.start;
+	uint win_width = 0;
+	uint win_height = 0;
+	App->win->GetWindowSize(win_width, win_height);
+
 	//for to iterate every layer
 	for (item; item != nullptr; item = item->next)
 	{
@@ -41,19 +46,28 @@ void j1Map::Draw()
 		{
 			for (int x = 0; x < data.width; ++x)
 			{
-				int tile_id = item->data->Get(x, y);
-				if (tile_id > 0 && tile_id != App->player->BONUS_id 
-					&& tile_id != App->player->CLIMB_WALL_id && tile_id != App->player->WALL_id)//algo me huele a chapuza de última hora aquí (efectivamente es una chapuza que sustituye a las propiedades de capa)
+				//pasar la x y la y a coordenadas del mapa (MapToWorld())
+				iPoint tileCoords = MapToWorld(x, y);
+				//si la X es >= que la coordenada x de la camara y la X es <= que la coordenada x de la camara + la anchura de la camara
+				//si la Y es >= que la coordenada y de la camara y la Y es <= que la coordenada y de la camara + la altura de la camara
+				if ((tileCoords.x - 32) > -(App->render->camera.x) && tileCoords.x <= (-(App->render->camera.x) + (int)win_width) &&
+					(tileCoords.y - 32) >= -(App->render->camera.y) && tileCoords.y <= (-(App->render->camera.y) + (int)win_height))
 				{
-					TileSet* tileset = GetTilesetFromTileId(tile_id);
-					if (tileset != nullptr)
+					int tile_id = item->data->Get(x, y);
+					if (tile_id > 0 && tile_id != App->player->BONUS_id
+						&& tile_id != App->player->CLIMB_WALL_id && tile_id != App->player->WALL_id)//algo me huele a chapuza de última hora aquí (efectivamente es una chapuza que sustituye a las propiedades de capa)
 					{
-						SDL_Rect r = tileset->GetTileRect(tile_id);
-						iPoint pos = MapToWorld(x, y);
+						TileSet* tileset = GetTilesetFromTileId(tile_id);
+						if (tileset != nullptr)
+						{
+							SDL_Rect r = tileset->GetTileRect(tile_id);
+							iPoint pos = MapToWorld(x, y);
 
-						App->render->Blit(tileset->texture, pos.x, pos.y, &r);
+							App->render->Blit(tileset->texture, pos.x, pos.y, &r);
+						}
 					}
 				}
+				
 			}
 		}
 	}

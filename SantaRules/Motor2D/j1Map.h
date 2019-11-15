@@ -123,6 +123,8 @@ public:
 
 	MapData data;
 	MapLayer* Metadata;
+	uint win_width = 0;
+	uint win_height = 0;
 	bool drawLayer;
 	
 

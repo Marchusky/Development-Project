@@ -10,6 +10,7 @@
 #include "j1Audio.h"
 #include "j1Collision.h"
 #include "j1Map.h"
+#include "j1Window.h"
 
 
 j1Player::j1Player() : j1Module()
@@ -471,8 +472,6 @@ bool j1Player::Update(float dt)
 	rotating_animation = current_animation->GetCurrentFrame();
 	App->render->Blit(Graphics, CurrentPosition.x, CurrentPosition.y, &rotating_animation, flipped);
 
-	//SET WINDOW POSITION
-	//SDL_SetWindowPosition()
 
 	return true;
 }

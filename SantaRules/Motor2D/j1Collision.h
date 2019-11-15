@@ -1,7 +1,7 @@
 #ifndef _j1COLLISION_H_
 #define _j1COLLISION_H_
 
-#define MAX_COLLIDERS 500
+#define MAX_COLLIDERS 2000
 
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )

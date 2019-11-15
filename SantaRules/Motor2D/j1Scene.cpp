@@ -9,6 +9,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Collision.h"
+#include "j1Player.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -62,7 +63,13 @@ bool j1Scene::Update(float dt)
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= 1;
+	
+	uint win_height = 0;
+	uint win_width = 0;
+	App->win->GetWindowSize(win_width, win_height);
 
+	App->render->camera.y = -(App->player->CurrentPosition.y - ((int)win_height/2));
+	App->render->camera.x = -(App->player->CurrentPosition.x - ((int)win_width/2));
 	App->map->Draw();
 	App->coll->DebugDraw();
 
