@@ -4,6 +4,10 @@
 #include "p2Log.h"
 #include "j1App.h"
 
+//Brofiler
+#include "Brofiler/Brofiler/Brofiler.h"
+#pragma comment( lib, "Brofiler/Brofiler/ProfilerCore32.lib" )
+
 // This is needed here because SDL redefines main function
 // do not add any other libraries here, instead put them in their modules
 #include "SDL/include/SDL.h"
@@ -31,7 +35,7 @@ int main(int argc, char* args[])
 	int result = EXIT_FAILURE;
 
 	while (state != EXIT)
-	{
+	{BROFILER_FRAME("Main_thread")
 		switch (state)
 		{
 
