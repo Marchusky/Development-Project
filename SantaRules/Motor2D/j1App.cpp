@@ -15,6 +15,7 @@
 #include "j1Collision.h"
 #include "j1Player.h"
 #include "j1FadeToBlack.h"
+#include "j1Pathfinding.h"
 
 #include "Brofiler/Brofiler/Brofiler.h"
 
@@ -33,6 +34,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	map = new j1Map();
 	coll = new j1Collision();
 	player = new j1Player();
+	pathfinding = new j1PathFinding();
 	//fade = new j1FadeToBlack();
 
 	// Ordered for awake / Start / Update
@@ -43,6 +45,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(coll);
 	AddModule(map);
+	AddModule(pathfinding);
 	AddModule(scene);
 	AddModule(player);
 	//AddModule(fade);
