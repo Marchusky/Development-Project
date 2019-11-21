@@ -10,6 +10,7 @@
 #include "j1Scene.h"
 #include "j1Collision.h"
 #include "j1Player.h"
+#include "j1Pathfinding.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -33,7 +34,17 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->map->Load("map_1.tmx");
-	
+	{
+		int w, h;
+		uchar* data = NULL;
+		if (App->map->CreateWalkabilityMap(w, h, &data))
+			App->pathfinding->SetMap(w, h, data);
+
+		RELEASE_ARRAY(data);
+	}
+
+	debug_tex = App->tex->Load("maps/path2.png");
+
 	return true;
 }
 
