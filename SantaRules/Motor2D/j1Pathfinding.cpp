@@ -182,7 +182,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		// Iterate while we have tiles in the open list
 		while (open.list.count() != 0)
 		{
-			LOG("1");
+			//LOG("1");
 			// TODO 3: Move the lowest score cell from open list to the closed list
 			p2List_item<PathNode>* lowestFNode = open.GetNodeLowestScore();
 			open.list.del(open.GetNodeLowestScore());
@@ -211,7 +211,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			// ignore nodes in the closed list
 			while (nodeIt != NULL)
 			{
-				LOG("2");
+				//LOG("2");
 				if (closed.Find(nodeIt->data.pos) == NULL)
 				{
 					// If it is NOT found, calculate its F and add it to the open list
