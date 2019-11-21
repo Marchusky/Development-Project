@@ -9,6 +9,7 @@
 #include "j1Collision.h"
 #include "j1Player.h"
 #include "j1Map.h"
+#include "j1Window.h"
 
 j1Collision::j1Collision()
 {
@@ -48,6 +49,10 @@ bool j1Collision::Awake(pugi::xml_node& node)
 
 	name.create("collison"); //that's to fix the config file ids declaration inside player node
 
+	win_width = 0;
+	win_height = 0;
+	
+	App->win->GetWindowSize(win_width, win_height);
 	return ret;
 }
 
@@ -113,30 +118,34 @@ void j1Collision::DebugDraw()
 		if (colliders[i] == nullptr)
 			continue;
 
-		switch (colliders[i]->type)
+		if ((colliders[i]->rect.x +32) > -(App->render->camera.x) && colliders[i]->rect.x <= (-(App->render->camera.x) + (int)win_width + 32) &&
+			(colliders[i]->rect.y +32) >= -(App->render->camera.y) && colliders[i]->rect.y <= (-(App->render->camera.y) + (int)win_height + 32))
 		{
-		case COLLIDER_NONE: // white
-			App->render->DrawQuad(colliders[i]->rect, 255, 255, 255, alpha);
-			break;
-		
-		case PLAYER: // green
-			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
-			break;
-		
-		case CLIMB_WALL: // blue
-			App->render->DrawQuad(colliders[i]->rect, 0, 0, 255, alpha);
-			break;
+			switch (colliders[i]->type)
+			{
+			case COLLIDER_NONE: // white
+				App->render->DrawQuad(colliders[i]->rect, 255, 255, 255, alpha);
+				break;
 
-		case WALL: // red
-			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
-			break;
+			case PLAYER: // green
+				App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
+				break;
 
-		case BONUS: // yellow
-			App->render->DrawQuad(colliders[i]->rect, 255, 255, 0, alpha);
-			break;
-		} 
+			case CLIMB_WALL: // blue
+				App->render->DrawQuad(colliders[i]->rect, 0, 0, 255, alpha);
+				break;
+
+			case WALL: // red
+				App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
+				break;
+
+			case BONUS: // yellow
+				App->render->DrawQuad(colliders[i]->rect, 255, 255, 0, alpha);
+				break;
+			}
+
+		}
 	}
-
 }
 
 bool j1Collision::canCollide_right(uint tile_id) //we get this id from the x and y value of the collider and with the function get()

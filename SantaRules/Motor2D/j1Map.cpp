@@ -7,6 +7,7 @@
 #include "j1Collision.h"
 #include "j1Player.h"
 #include "j1Window.h"
+#include "j1Pathfinding.h"
 #include <math.h>
 
 #include "Brofiler/Brofiler/Brofiler.h"
@@ -53,8 +54,8 @@ void j1Map::Draw()
 				iPoint tileCoords = MapToWorld(x, y);
 				//si la X es >= que la coordenada x de la camara y la X es <= que la coordenada x de la camara + la anchura de la camara
 				//si la Y es >= que la coordenada y de la camara y la Y es <= que la coordenada y de la camara + la altura de la camara
-				if ((tileCoords.x - 32) > -(App->render->camera.x) && tileCoords.x <= (-(App->render->camera.x) + (int)win_width) &&
-					(tileCoords.y - 32) >= -(App->render->camera.y) && tileCoords.y <= (-(App->render->camera.y) + (int)win_height))
+				if ((tileCoords.x +32) > -(App->render->camera.x) && tileCoords.x <= (-(App->render->camera.x ) + (int)win_width +32) &&
+					(tileCoords.y +32) >= -(App->render->camera.y) && tileCoords.y <= (-(App->render->camera.y) + (int)win_height+32))
 				{
 					int tile_id = item->data->Get(x, y);
 					if (tile_id > 0 && tile_id != App->player->BONUS_id
@@ -74,6 +75,20 @@ void j1Map::Draw()
 			}
 		}
 	}
+}
+
+int Properties::Get(const char* value, int default_value) const
+{
+	p2List_item<Property*>* item = list.start;
+
+	while (item)
+	{
+		if (item->data->name == value)
+			return item->data->value;
+		item = item->next;
+	}
+
+	return default_value;
 }
 
 TileSet* j1Map::GetTilesetFromTileId(int id) const
@@ -485,34 +500,74 @@ bool j1Map::SetCollisionLayout(pugi::xml_node& node)
 		
 	return ret;
 }
-
-// Load a group of properties from a node and fill a list with it
 bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 {
 	bool ret = false;
 
-	//// TODO 6: Fill in the method to fill the custom properties from 
-	//// an xml_node
-	//pugi::xml_node property = node.child("properties").child("property");
+	pugi::xml_node data = node.child("properties");
 
-	//for(property; property; property = property.next_sibling())
-	//{
-	//	if (strcmp(property.attribute("type").as_string(), "bool"))
-	//	{
-	//		properties.property.attribute("value").as_bool();
-	//	}
-	//	else if (strcmp(property.attribute("type").as_string(), "string"))
-	//	{
-	//			property.attribute("value").as_string();
-	//	}
-	//	else if (strcmp(property.attribute("type").as_string(), "int"))
-	//	{
-	//			property.attribute("value").as_int();
-	//	}
-	//	else if (strcmp(property.attribute("type").as_string(), "float"))
-	//	{
-	//		property.attribute("value").as_float();
-	//	}
-	//}
+	if (data != NULL)
+	{
+		pugi::xml_node prop;
+
+		for (prop = data.child("property"); prop; prop = prop.next_sibling("property"))
+		{
+			Properties::Property* p = new Properties::Property();
+
+			p->name = prop.attribute("name").as_string();
+			p->value = prop.attribute("value").as_int();
+
+			properties.list.add(p);
+		}
+	}
+
+	return ret;
+}
+
+bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
+{
+	bool ret = false;
+	p2List_item<MapLayer*>* item;
+	item = data.layers.start;
+
+	for (item = data.layers.start; item != NULL; item = item->next)
+	{
+		MapLayer* layer = item->data;
+
+		if (layer->properties.Get("Navigation", 0) == 0)
+			continue;
+
+		uchar* map = new uchar[layer->width*layer->height];
+		memset(map, 1, layer->width*layer->height);
+
+		for (int y = 0; y < data.height; ++y)
+		{
+			for (int x = 0; x < data.width; ++x)
+			{
+				int i = (y*layer->width) + x;
+
+				int tile_id = layer->Get(x, y);
+				TileSet* tileset = (tile_id > 0) ? GetTilesetFromTileId(tile_id) : NULL;
+
+				if (tileset != NULL)
+				{
+					map[i] = (tile_id - tileset->firstgid) > 0 ? 0 : 1;
+					/*TileType* ts = tileset->GetTileType(tile_id);
+					if(ts != NULL)
+					{
+						map[i] = ts->properties.Get("walkable", 1);
+					}*/
+				}
+			}
+		}
+
+		*buffer = map;
+		width = data.width;
+		height = data.height;
+		ret = true;
+
+		break;
+	}
+
 	return ret;
 }
