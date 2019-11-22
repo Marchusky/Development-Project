@@ -34,6 +34,8 @@ public:
 
 private:
 	SDL_Texture* debug_tex;
+	uint i = 0; // PF test
+	uint j = 0; // PF test
 };
 
 #endif // __j1SCENE_H__
