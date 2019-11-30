@@ -2,6 +2,8 @@
 #define __j1SCENE_H__
 
 #include "j1Module.h"
+#include "j1EntityManager.h"
+#include "j1EntityPlayer.h"
 
 struct SDL_Texture;
 

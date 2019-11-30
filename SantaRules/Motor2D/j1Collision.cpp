@@ -10,6 +10,8 @@
 #include "j1Player.h"
 #include "j1Map.h"
 #include "j1Window.h"
+#include "j1EntityPlayer.h"
+#include "j1Scene.h"
 
 j1Collision::j1Collision()
 {
@@ -22,21 +24,31 @@ j1Collision::j1Collision()
 	matrix[WALL][CLIMB_WALL] = false;
 	matrix[WALL][BONUS] = false;
 	matrix[WALL][PLAYER] = true;
+	matrix[WALL][ENEMY] = true;
 
 	matrix[CLIMB_WALL][WALL] = false;
 	matrix[CLIMB_WALL][CLIMB_WALL] = false;
 	matrix[CLIMB_WALL][BONUS] = false;
 	matrix[CLIMB_WALL][PLAYER] = true;
+	matrix[CLIMB_WALL][ENEMY] = true;
 
 	matrix[BONUS][WALL] = false;
 	matrix[BONUS][CLIMB_WALL] = false;
 	matrix[BONUS][BONUS] = false;
 	matrix[BONUS][PLAYER] = true;
+	matrix[BONUS][ENEMY] = false;
 
 	matrix[PLAYER][WALL] = true;
 	matrix[PLAYER][CLIMB_WALL] = true;
 	matrix[PLAYER][BONUS] = true;
 	matrix[PLAYER][PLAYER] = false;
+	matrix[PLAYER][ENEMY] = true;
+
+	matrix[ENEMY][WALL] = true;
+	matrix[ENEMY][CLIMB_WALL] = true;
+	matrix[ENEMY][BONUS] = false;
+	matrix[ENEMY][PLAYER] = true;
+	matrix[ENEMY][ENEMY] = false;
 }
 
 j1Collision::~j1Collision()
@@ -90,9 +102,9 @@ bool j1Collision::PostUpdate() //BIG ERROR HERE, CALLBACK ACCESSES WEIRD PLACES
 
 			c2 = colliders[k];
 
-			if (c1->CheckCollision(c2->rect) == true && matrix[c2->type][c1->type] && App->player->God_Mode != true)
+			if (c1->CheckCollision(c2->rect) == true && matrix[c2->type][c1->type] && App->manager->Player->God_Mode != true)
 			{
-				App->player->OnCollision(c1, c2);
+				App->manager->OnCollision(c1, c2);
 			}
 
 		}
@@ -155,8 +167,8 @@ bool j1Collision::canCollide_right(uint tile_id) //we get this id from the x and
 	{
 		if (App->map->Metadata->data[tile_id + 1] != NULL)
 		{
-			if (App->map->Metadata->data[tile_id + 1] == App->player->WALL_id 
-				|| App->map->Metadata->data[tile_id + 1] == App->player->CLIMB_WALL_id)
+			if (App->map->Metadata->data[tile_id + 1] == App->manager->Player->WALL_id
+				|| App->map->Metadata->data[tile_id + 1] == App->manager->Player->CLIMB_WALL_id)
 			{
 				ret = false;
 			}
@@ -171,8 +183,8 @@ bool j1Collision::canCollide_right(uint tile_id) //we get this id from the x and
 	{
 		if (App->map->Metadata->data[tile_id - 1] != NULL)
 		{
-			if (App->map->Metadata->data[tile_id - 1] == App->player->WALL_id ||
-				App->map->Metadata->data[tile_id - 1] == App->player->CLIMB_WALL_id)
+			if (App->map->Metadata->data[tile_id - 1] == App->manager->Player->WALL_id ||
+				App->map->Metadata->data[tile_id - 1] == App->manager->Player->CLIMB_WALL_id)
 			{
 				ret = false;
 			}
@@ -189,8 +201,8 @@ bool j1Collision::canCollide_top(uint tile_id) //we get this id from the x and y
 	{
 		if (App->map->Metadata->data[tile_id - App->map->Metadata->width] != NULL)
 		{
-			if (App->map->Metadata->data[tile_id - App->map->Metadata->width] == App->player->WALL_id ||
-				App->map->Metadata->data[tile_id - App->map->Metadata->width] == App->player->CLIMB_WALL_id)
+			if (App->map->Metadata->data[tile_id - App->map->Metadata->width] == App->manager->Player->WALL_id ||
+				App->map->Metadata->data[tile_id - App->map->Metadata->width] == App->manager->Player->CLIMB_WALL_id)
 			{
 				ret = false;
 			}
@@ -207,8 +219,8 @@ bool j1Collision::canCollide_bottom(uint tile_id) //we get this id from the x an
 	{
 		if (App->map->Metadata->data[tile_id + App->map->Metadata->width] != NULL)
 		{
-			if (App->map->Metadata->data[tile_id + App->map->Metadata->width] == App->player->WALL_id ||
-				App->map->Metadata->data[tile_id + App->map->Metadata->width] == App->player->CLIMB_WALL_id)
+			if (App->map->Metadata->data[tile_id + App->map->Metadata->width] == App->manager->Player->WALL_id ||
+				App->map->Metadata->data[tile_id + App->map->Metadata->width] == App->manager->Player->CLIMB_WALL_id)
 			{
 				ret = false;
 			}

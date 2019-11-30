@@ -5,6 +5,7 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "j1Module.h"
+#include "SDL_image/include/SDL_image.h"
 
 // TODO 5: Create a generic structure to hold properties
 // TODO 7: Our custom properties should have one method

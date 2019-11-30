@@ -26,30 +26,32 @@
     <folder>maps/</folder>
   </map>
 
-  <player>
-    <player_stats>
-      <character_width value="48"/>
-      <character_height value="75"/>
-      <InitialPos_x value="75"/>
-      <InitialPos_y value="20"/>
-      <PlayerVel_w value="3"/>
-      <PlayerVel_r value="6"/>
-      <Gravity value="4.0f"/>
-      <falling_velocity value="10.0f"/>
-      <slide_distance value="40"/>
-    </player_stats>
-    <colliders>
-      <tile_types>
-        <WALL value="68"/>
-        <CLIMB_WALL value="52"/>
-        <BONUS value="84"/>
-      </tile_types>
-      <main_collider>
-        <coordinate_x value="0"/>
-        <coordinate_y value="0"/>
-        <width value="48"/>
-        <height value="75"/>
-      </main_collider>
-    </colliders>
-  </player>  
+  <entityManager>
+    <player>
+      <player_stats>
+        <character_width value="48"/>
+        <character_height value="75"/>
+        <InitialPos_x value="75"/>
+        <InitialPos_y value="20"/>
+        <PlayerVel_w value="3"/>
+        <PlayerVel_r value="6"/>
+        <Gravity value="4.0f"/>
+        <falling_velocity value="10.0f"/>
+        <slide_distance value="40"/>
+      </player_stats>
+      <colliders>
+        <tile_types>
+          <WALL value="68"/>
+          <CLIMB_WALL value="52"/>
+          <BONUS value="84"/>
+        </tile_types>
+        <main_collider>
+          <coordinate_x value="0"/>
+          <coordinate_y value="0"/>
+          <width value="48"/>
+          <height value="75"/>
+        </main_collider>
+      </colliders>
+    </player>
+  </entityManager>
 </config>

@@ -11,6 +11,8 @@
 #include "j1Collision.h"
 #include "j1Player.h"
 #include "j1Pathfinding.h"
+#include "j1EntityManager.h"
+#include "j1EntityPlayer.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -59,7 +61,7 @@ bool j1Scene::PreUpdate()
 	App->input->GetMousePosition(x, y);
 	iPoint p = App->render->ScreenToWorld(x, y);
 	p = App->map->WorldToMap(p.x, p.y);
-	iPoint Player_pos = App->map->WorldToMap(App->player->CurrentPosition.x, App->player->CurrentPosition.y);
+	iPoint Player_pos = App->map->WorldToMap(App->manager->Player->CurrentPosition.x, App->manager->Player->CurrentPosition.y);
 
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
@@ -107,8 +109,8 @@ bool j1Scene::Update(float dt)
 	uint win_width = 0;
 	App->win->GetWindowSize(win_width, win_height);
 
-	App->render->camera.y = -(App->player->CurrentPosition.y - ((int)win_height/2));
-	App->render->camera.x = -(App->player->CurrentPosition.x - ((int)win_width/2));
+	App->render->camera.y = -(App->manager->Player->CurrentPosition.y - ((int)win_height/2));
+	App->render->camera.x = -(App->manager->Player->CurrentPosition.x - ((int)win_width/2));
 	App->map->Draw();
 	App->coll->DebugDraw();
 
@@ -144,7 +146,7 @@ bool j1Scene::Update(float dt)
 	if (i == 100 && j < path->Count())
 	{
 		iPoint pos = App->map->MapToWorld(path->At(j)->x, path->At(j)->y);
-		App->render->Blit(debug_tex, pos.x, pos.y);
+		App->manager->Player->CurrentPosition = pos;
 		j++;
 		i = 0;
 	}

@@ -16,6 +16,7 @@
 #include "j1Player.h"
 #include "j1FadeToBlack.h"
 #include "j1Pathfinding.h"
+#include "j1EntityManager.h"
 
 #include "Brofiler/Brofiler/Brofiler.h"
 
@@ -33,8 +34,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new j1Scene();
 	map = new j1Map();
 	coll = new j1Collision();
-	player = new j1Player();
+	//player = new j1Player();
 	pathfinding = new j1PathFinding();
+	manager = new j1EntityManager();
 	//fade = new j1FadeToBlack();
 
 	// Ordered for awake / Start / Update
@@ -46,8 +48,10 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(coll);
 	AddModule(map);
 	AddModule(pathfinding);
+	AddModule(manager);
 	AddModule(scene);
-	AddModule(player);
+	
+	//AddModule(player);
 	//AddModule(fade);
 
 	// render last to swap buffer

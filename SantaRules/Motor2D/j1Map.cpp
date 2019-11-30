@@ -8,6 +8,7 @@
 #include "j1Player.h"
 #include "j1Window.h"
 #include "j1Pathfinding.h"
+#include "j1Scene.h"
 #include <math.h>
 
 #include "Brofiler/Brofiler/Brofiler.h"
@@ -58,8 +59,8 @@ void j1Map::Draw()
 					(tileCoords.y +32) >= -(App->render->camera.y) && tileCoords.y <= (-(App->render->camera.y) + (int)win_height+32))
 				{
 					int tile_id = item->data->Get(x, y);
-					if (tile_id > 0 && tile_id != App->player->BONUS_id
-						&& tile_id != App->player->CLIMB_WALL_id && tile_id != App->player->WALL_id)//algo me huele a chapuza de última hora aquí (efectivamente es una chapuza que sustituye a las propiedades de capa)
+					if (tile_id > 0 && tile_id != App->manager->Player->BONUS_id
+						&& tile_id != App->manager->Player->CLIMB_WALL_id && tile_id != App->manager->Player->WALL_id)//algo me huele a chapuza de última hora aquí (efectivamente es una chapuza que sustituye a las propiedades de capa)
 					{
 						TileSet* tileset = GetTilesetFromTileId(tile_id);
 						if (tileset != nullptr)
@@ -476,16 +477,16 @@ bool j1Map::SetCollisionLayout(pugi::xml_node& node)
 								tile_rect.x = pos.x;
 								tile_rect.y = pos.y;
 
-								if (tile_id == App->player->WALL_id)
+								if (tile_id == App->manager->Player->WALL_id)
 								{
 									App->coll->AddCollider(tile_rect, COLLIDER_TYPE::WALL);
 								}
-								else if (tile_id == App->player->CLIMB_WALL_id)
+								else if (tile_id == App->manager->Player->CLIMB_WALL_id)
 								{
 									App->coll->AddCollider(tile_rect, COLLIDER_TYPE::CLIMB_WALL);
 
 								}
-								else if (tile_id == App->player->BONUS_id)
+								else if (tile_id == App->manager->Player->BONUS_id)
 								{
 									App->coll->AddCollider(tile_rect, COLLIDER_TYPE::BONUS);
 
