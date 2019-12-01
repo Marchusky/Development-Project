@@ -3,6 +3,7 @@
 
 #include "j1Module.h"
 #include "p2Point.h"
+#include "Animation.h"
 
 struct SDL_Rect;
 struct Collider;
@@ -29,11 +30,12 @@ public:
 
 	virtual bool CleanUp();
 
-	//save?
+	virtual bool Save(pugi::xml_node&) const;
+	
+	virtual bool Load(pugi::xml_node&);
 
-	//load?
-
-	virtual bool Draw(iPoint pos, SDL_Rect rect, bool flip);
+	//virtual bool Draw(iPoint pos, SDL_Rect rect, bool flip);
+	virtual void BlitEntities(SDL_Rect r, bool flip = false, float x = 0, float y = 0);
 
 	virtual void OnCollision(Collider* c1, Collider* c2);
 
@@ -52,11 +54,13 @@ public:
 		EntityTexture = texture;
 	}
 
-protected:
+
+public:
+	iPoint			StartingPosition;
 	ENTITY_TYPE		Type;
 	Collider*		EntityCollider;
-	iPoint			StartingPosition;
 	SDL_Texture*	EntityTexture;
+	Animation*		EntityAnimation;
 	iPoint			sprite_size;
 
 	friend class j1EntityManager;

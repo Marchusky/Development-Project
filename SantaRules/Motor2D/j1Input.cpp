@@ -34,7 +34,6 @@ bool j1Input::Awake(pugi::xml_node& config)
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
-
 	return ret;
 }
 

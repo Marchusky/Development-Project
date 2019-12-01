@@ -7,6 +7,12 @@
 
 struct SDL_Texture;
 
+enum ListOfMapNames
+{
+	FirstLevel,
+	SecondLevel
+};
+
 class j1Scene : public j1Module
 {
 public:
@@ -17,7 +23,7 @@ public:
 	virtual ~j1Scene();
 
 	// Called before render is available
-	bool Awake();
+	bool Awake(pugi::xml_node&);
 
 	// Called before the first frame
 	bool Start();
@@ -34,8 +40,21 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	bool Load(pugi::xml_node& data);
+	bool Save(pugi::xml_node& data) const;
+
+public:
+	p2List<p2SString*>	map_names;
+	int					currentMap;
+	float				transition_time;
+	
+	bool				to_end;
+	bool				Map_1;			
+	bool				Map_2;
+
 private:
-	SDL_Texture* debug_tex;
+	SDL_Texture*		debug_tex;
+	float				camera_speed_debugg;
 	uint i = 0; // PF test
 	uint j = 0; // PF test
 };

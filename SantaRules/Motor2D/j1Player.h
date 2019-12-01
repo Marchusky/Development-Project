@@ -106,7 +106,7 @@
 //
 //	//ANIMATION
 //	//Draw diferents animations
-//	Animation*		current_animation;
+//	Animation*		EntityAnimation;
 //	SDL_Rect		rotating_animation;
 //	bool			flipped = false;
 //	//Idle

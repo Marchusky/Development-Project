@@ -21,7 +21,10 @@ j1EntityManager::~j1EntityManager()
 
 bool j1EntityManager::Awake(pugi::xml_node& node)
 {
+	
 	Player = (j1EntityPlayer*)App->manager->CreateEntity(ENTITY_TYPE::PLAYER, App->manager->Init_playerPos);
+	
+	
 	for (p2List_item<j1Entity*>* item = entities.start; item != nullptr; item = item->next)
 	{
 		item->data->Awake(node);

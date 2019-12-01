@@ -40,7 +40,7 @@ bool j1EntityMovable_ground::Update(float dt, bool doLogic)
 	EntityCollider->SetPos(CurrentPosition.x, CurrentPosition.y);
 
 	////ANIMATIONS
-	//rotating_animation = current_animation->GetCurrentFrame();
+	//rotating_animation = EntityAnimation->GetCurrentFrame();
 	//App->render->Blit(Graphics, CurrentPosition.x, CurrentPosition.y, &rotating_animation, flipped);
 
 	return true;

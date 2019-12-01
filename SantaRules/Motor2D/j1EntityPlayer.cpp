@@ -21,6 +21,9 @@ j1EntityPlayer::j1EntityPlayer(iPoint pos, ENTITY_TYPE type) : j1EntityMovable_g
 {
 	name.create("player");
 
+	LOG("Loading player textures");
+	EntityTexture = App->tex->Load("Spritesheets/Santa.png");
+
 	//IDLE
 	idle.PushBack({ 5,1,48,75 });
 	idle.PushBack({ 135,1,48,75 });
@@ -80,7 +83,7 @@ j1EntityPlayer::j1EntityPlayer(iPoint pos, ENTITY_TYPE type) : j1EntityMovable_g
 	//JUMPING
 	jumping.PushBack({ 23,663,48,75 });
 	jumping.PushBack({ 157,663,48,75 });
-	jumping.PushBack({ 287,663,48,75 });
+	/*jumping.PushBack({ 287,663,48,75 });
 	jumping.PushBack({ 412,663,48,75 });
 	jumping.PushBack({ 543,663,48,75 });
 	jumping.PushBack({ 659,663,48,75 });
@@ -94,7 +97,7 @@ j1EntityPlayer::j1EntityPlayer(iPoint pos, ENTITY_TYPE type) : j1EntityMovable_g
 	jumping.PushBack({ 275,749,48,75 });
 	jumping.PushBack({ 411,749,48,75 });
 	jumping.PushBack({ 542,749,48,75 });
-	jumping.PushBack({ 674,749,48,75 });
+	jumping.PushBack({ 674,749,48,75 });*/
 
 	jumping.speed = 0.1f;
 
@@ -136,14 +139,7 @@ j1EntityPlayer::j1EntityPlayer(iPoint pos, ENTITY_TYPE type) : j1EntityMovable_g
 
 	dying.speed = 0.1f;
 
-	//Start
-	LOG("Loading player textures");
-	//Graphics = App->tex->Load("Spritesheets/Santa.png");
-
-	EntityState = Current_State::ST_IDLE;
-	EntityRect = { CurrentPosition.x, CurrentPosition.y, Size.x, Size.y };
-
-	God_Mode = false;
+	
 } 
 
 bool j1EntityPlayer::Awake(pugi::xml_node& node)
@@ -160,8 +156,9 @@ bool j1EntityPlayer::Awake(pugi::xml_node& node)
 	CurrentPosition.y = StartingPosition.y;
 	velocity = player_stats.child("PlayerVel_w").attribute("value").as_uint();
 	PlayerVel_r = player_stats.child("PlayerVel_r").attribute("value").as_uint();
+	PlayerVel_Y = player_stats.child("PlayerVel_Y").attribute("value").as_uint();
 	Gravity = player_stats.child("Gravity").attribute("value").as_float();
-	falling_velocity = player_stats.child("falling_velocity").attribute("value").as_float();
+	FallingVel = player_stats.child("falling_velocity").attribute("value").as_float();
 	Slide_distance = player_stats.child("slide_distance").attribute("value").as_uint();
 
 	//--- main_Collider creation
@@ -176,10 +173,34 @@ bool j1EntityPlayer::Awake(pugi::xml_node& node)
 	CLIMB_WALL_id = colliders.child("tile_types").child("CLIMB_WALL").attribute("value").as_uint();
 	BONUS_id = colliders.child("tile_types").child("BONUS").attribute("value").as_uint();
 
+
+	
+
+	EntityState = Current_State::ST_IDLE;
+	EntityRect = { CurrentPosition.x, CurrentPosition.y, Size.x, Size.y };
+
+
+	God_Mode = false;
+
+
+
 	return true;
 }
+
+
 bool j1EntityPlayer::PreUpdate()
 {
+	On_Ground;
+	if (On_Ground == false) {
+
+		Falling = true;
+	}
+
+	if (Falling == true)
+	{
+
+		CurrentPosition.y += Gravity;
+	}
 	bool ret = true;
 	//SHORTCUTS INPUTS--- 
 	PlayerInput.F1_enabled = App->input->keyboard[SDL_SCANCODE_F1] == KEY_DOWN;
@@ -189,14 +210,6 @@ bool j1EntityPlayer::PreUpdate()
 	PlayerInput.F6_enabled = App->input->keyboard[SDL_SCANCODE_F6] == KEY_DOWN;
 	PlayerInput.F7_enabled = App->input->keyboard[SDL_SCANCODE_F7] == KEY_DOWN;
 	PlayerInput.F8_enabled = App->input->keyboard[SDL_SCANCODE_F8] == KEY_DOWN;
-
-	//RESET CURRENT LEVEL---
-	if (PlayerInput.F3_enabled)
-	{
-		CurrentPosition.x = StartingPosition.x;
-		CurrentPosition.y = StartingPosition.y;
-		//FALTA CAMERA RESET
-	}
 
 	//GODMODE---
 	if (God_Mode == false && PlayerInput.F8_enabled)
@@ -235,7 +248,6 @@ bool j1EntityPlayer::PreUpdate()
 		{
 			if (PlayerInput.A_enabled)
 			{
-				LOG("A pressed");
 				EntityState = Current_State::ST_LEFT_W;
 			}
 			if (PlayerInput.D_enabled)
@@ -244,7 +256,21 @@ bool j1EntityPlayer::PreUpdate()
 			}
 			if (PlayerInput.Space_enabled)
 			{
+				
 				EntityState = Current_State::ST_JUMPING;
+
+				if (On_Ground == false) {
+					EntityState = Current_State::ST_FALLING;
+					LOG("JUMP NOT AVAILABLE");
+				}
+			}
+			if (PlayerInput.Space_enabled) {
+
+				On_Ground = false;
+				CanJump = false;
+				PlayerVel_Y = 50;
+				EntityState = Current_State::ST_JUMPING;
+
 			}
 		}
 		if (EntityState == Current_State::ST_LEFT_W)
@@ -261,8 +287,9 @@ bool j1EntityPlayer::PreUpdate()
 			{
 				EntityState = Current_State::ST_RIGHT_W;
 			}
-			if (PlayerInput.Space_enabled && jump_available)
+			if (PlayerInput.Space_enabled &&  CanJump == true)
 			{
+				On_Ground = false;
 				EntityState = Current_State::ST_JUMPING;
 			}
 		}
@@ -280,7 +307,7 @@ bool j1EntityPlayer::PreUpdate()
 			{
 				EntityState = Current_State::ST_RIGHT_W;
 			}
-			if (PlayerInput.Space_enabled && jump_available)
+			if (PlayerInput.Space_enabled && CanJump == true)
 			{
 				EntityState = Current_State::ST_JUMPING;
 			}
@@ -303,7 +330,7 @@ bool j1EntityPlayer::PreUpdate()
 			{
 				EntityState = Current_State::ST_LEFT_W;
 			}
-			if (PlayerInput.Space_enabled && jump_available)
+			if (PlayerInput.Space_enabled && CanJump == true)
 			{
 				EntityState = Current_State::ST_JUMPING;
 			}
@@ -322,7 +349,7 @@ bool j1EntityPlayer::PreUpdate()
 			{
 				EntityState = Current_State::ST_RIGHT_W;
 			}
-			if (PlayerInput.Space_enabled && jump_available)
+			if (PlayerInput.Space_enabled && CanJump == true)
 			{
 				EntityState = Current_State::ST_JUMPING;
 			}
@@ -333,10 +360,14 @@ bool j1EntityPlayer::PreUpdate()
 		}
 		if (EntityState == Current_State::ST_JUMPING)
 		{
-			if (PlayerInput.W_enabled)
+			/*if (PlayerInput.W_enabled)
 			{
 				EntityState = Current_State::ST_CLIMBING;
-			}
+			}*/
+		}
+		if (EntityState == Current_State::ST_FALLING)
+		{
+
 		}
 		if (EntityState == Current_State::ST_SLIDING)
 		{
@@ -344,7 +375,7 @@ bool j1EntityPlayer::PreUpdate()
 			{
 				EntityState = Current_State::ST_IDLE;
 			}
-			if (PlayerInput.Space_enabled && jump_available)
+			if (PlayerInput.Space_enabled && CanJump == true)
 			{
 				EntityState = Current_State::ST_JUMPING;
 			}
@@ -355,7 +386,7 @@ bool j1EntityPlayer::PreUpdate()
 			{
 				EntityState = Current_State::ST_IDLE;
 			}
-			if (PlayerInput.Space_enabled && jump_available)
+			if (PlayerInput.Space_enabled && CanJump == true)
 			{
 				EntityState = Current_State::ST_JUMPING;
 			}
@@ -399,57 +430,82 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 	{
 	case Current_State::ST_IDLE:
 		LOG("IDLE");
-		current_animation = &idle;
+		if (EndJump == true) {
+			EntityAnimation = &idle;
+		}
+		else {
+			EntityAnimation = &jumping;
+		}
+		JumpTicks = true;
 		break;
 
 	case Current_State::ST_LEFT_W:
 		LOG("WALKING LEFT");
 		flipped = true;
-		CurrentPosition.x -= velocity;
-		current_animation = &walking;
+		Movement();
+		EntityAnimation = &walking;
 		break;
 
 	case Current_State::ST_LEFT_R:
 		LOG("RUNNING LEFT");
 		flipped = true;
-		CurrentPosition.x -= PlayerVel_r;
-		current_animation = &running;
+		Movement();
+		EntityAnimation = &running;
 		break;
 
 	case Current_State::ST_RIGHT_W:
 		LOG("WALKING RIGHT");
 		flipped = false;
-		CurrentPosition.x += velocity;
-		current_animation = &walking;
+		Movement();
+		EntityAnimation = &walking;
 		break;
 
 	case Current_State::ST_RIGHT_R:
 		LOG("RUNNING RIGHT");
 		flipped = false;
-		CurrentPosition.x += PlayerVel_r;
-		current_animation = &running;
+		Movement();
+		EntityAnimation = &running;
 		break;
 
 	case Current_State::ST_JUMPING:
 		LOG("JUMPING");
+		
+		EntityAnimation = &jumping;
+	
+		EndJump = false;
+		On_The_Ground();
 
-		current_animation = &jumping;
-		//FALTA
+		if (Jump_Ready == true) {
+			MidAirUP = true;
+
+			Jumping();
+		}
+		if (EndJump == true) {
+			Current_State::ST_FALLING;
+			EntityAnimation = &jumping;
+		}
+		break;
+
+	case Current_State::ST_FALLING:
+		LOG("FALLING");
+		TouchingCollider = false;
+		EntityAnimation = &jumping;
+
 		break;
 
 	case Current_State::ST_SLIDING:
 		LOG("SLIDING");
-		current_animation = &sliding;
+		EntityAnimation = &sliding;
 		break;
 
 	case Current_State::ST_CLIMBING:
 		LOG("CLIMBING");
-		current_animation = &climbing;
+		EntityAnimation = &climbing;
 		break;
 
 	case Current_State::ST_DYING:
 		LOG("DYING");
-		current_animation = &dying;
+		EntityAnimation = &dying;
 		break;
 	}
 
@@ -458,64 +514,152 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 	EntityCollider->SetPos(CurrentPosition.x, CurrentPosition.y);
 
 	//ANIMATIONS
-	rotating_animation = current_animation->GetCurrentFrame();
-	App->render->Blit(Graphics, CurrentPosition.x, CurrentPosition.y, &rotating_animation, flipped);
+	rotating_animation = EntityAnimation->GetCurrentFrame();
+	//App->render->Blit(Graphics, CurrentPosition.x, CurrentPosition.y, &rotating_animation, flipped);
+	if (flipped == false)
+	{
+		BlitEntities(rotating_animation, flipped, CurrentPosition.x, CurrentPosition.y);
+	}
+	else
+	{
+		BlitEntities(rotating_animation, flipped, CurrentPosition.x, CurrentPosition.y);
+	}
+
 
 	return true;
 }
 
-void j1EntityPlayer::grounded()
+void j1EntityPlayer::On_The_Ground()
 {
-	jump_available = false;
-	if (in_land == true)
-	{
-		jump_available = true;
+	//CHECK COLLISION
+	CanJump = false;
+	if (On_Ground == true) {
+
+		Jump_Ready = true;
+
+		LOG("ON GROUND TRUE");
 	}
-	else
-	{
-		jump_available = false;
+	else if (On_Ground == false) {
+
+		Jump_Ready = false;
+
+		LOG("ON GROUND FALSE");
 	}
 }
 
-void j1EntityPlayer::jump()
+void j1EntityPlayer::Jumping() 
 {
-	if (mid_air)
-	{
-		falling_velocity -= Gravity;
+	CanJump = false;
 
-		if (PlayerInput.A_enabled)
+	if (MidAirUP == true) {
+		LOG("MID AIR TRUE");
+		PlayerVel_Y -= Gravity * 0.75;
+
+		if (PlayerInput.A_enabled) 
+		{
+			CurrentPosition.x -= 1.5*velocity;
+		}
+
+		if (PlayerInput.D_enabled) {
+			CurrentPosition.x += 1.5*velocity;
+
+			LOG("GOING RIGHT INSIDE JUMP");
+		}
+
+		if (PlayerVel_Y <= 0) {
+			height = CurrentPosition.y;
+			LOG("VELOCITY REACHED 0 at %f", height);
+			MidAirUP = false;
+		}
+
+		CurrentPosition.y -= PlayerVel_Y / 2;
+	}
+
+	if (MidAirUP == false) {
+		LOG("MID AIR UP == FALSE");
+
+
+		if (PlayerInput.D_enabled) {
+			FallLeft = true;
+			FallRight = false;
+
+		}
+		if (PlayerInput.A_enabled) {
+			FallRight = true;
+			FallLeft = false;
+		}
+
+		if (On_Ground == true) {
+			LOG("TO IDLE FROM JUMP");
+			EndJump = true;
+			PlayerVel_Y = TempVelY;
+		}
+
+		else {
+			LOG("FALLING");
+			CurrentPosition.y += PlayerVel_Y;
+			++FallingVel;
+			LOG("TIMES = %d", FallingVel);
+		}
+	}
+}
+
+void j1EntityPlayer::On_The_Air() {
+
+	CanJump = false;
+	if (On_Ground == true) {
+		Jump_Ready = false;
+	}
+	else if (On_Ground == false) {
+		Jump_Ready = true;
+	}
+
+}
+
+void j1EntityPlayer::Movement() {
+
+	if (PlayerInput.A_enabled && !TouchingCollider) {
+		if (!PlayerInput.Shift_enabled)
 		{
 			CurrentPosition.x -= velocity;
 		}
-		else if (PlayerInput.A_enabled && PlayerInput.Shift_enabled)
+		else if (PlayerInput.Shift_enabled)
 		{
 			CurrentPosition.x -= PlayerVel_r;
 		}
-		else if (PlayerInput.D_enabled)
+	}
+
+	if (PlayerInput.D_enabled && !TouchingCollider) {
+		if (!PlayerInput.Shift_enabled)
 		{
 			CurrentPosition.x += velocity;
 		}
-		else if (PlayerInput.D_enabled && PlayerInput.Shift_enabled)
+		else if (PlayerInput.Shift_enabled)
 		{
-			CurrentPosition.x -= PlayerVel_r;
+			CurrentPosition.x += PlayerVel_r;
 		}
 
-		CurrentPosition.y -= Gravity;
+	}
 
-	}
-	else if (!mid_air)
-	{
-		falling_velocity += Gravity;
-		if (in_land)
-		{
-			jump_ended = true;
-			EntityState = Current_State::ST_IDLE;
-		}
-		else if (!in_land)
-		{
-			CurrentPosition.y += falling_velocity;
-		}
-	}
+}
+
+bool j1EntityPlayer::Load(pugi::xml_node& data) 
+{
+
+	CurrentPosition.x = data.child("scene1").child("playerPos").attribute("x").as_float();
+	CurrentPosition.y = data.child("scene1").child("playerPos").attribute("y").as_float();
+
+	return true;
+}
+
+bool j1EntityPlayer::Save(pugi::xml_node& data) const
+{
+	pugi::xml_node player = data.append_child("playerPos");
+
+	player.append_attribute("x") = CurrentPosition.x;
+	player.append_attribute("y") = CurrentPosition.y;
+
+	return true;
 }
 
 void j1EntityPlayer::OnCollision(Collider* c1, Collider* c2)

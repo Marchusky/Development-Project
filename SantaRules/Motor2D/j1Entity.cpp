@@ -38,20 +38,38 @@ bool j1Entity::CleanUp()
 	return true;
 }
 
-//save?
-
-//load?
-
-bool j1Entity::Draw(iPoint pos, SDL_Rect rect, bool flip)
+bool j1Entity::Save(pugi::xml_node &)const
 {
-	bool ret = false;
+	return true;
+}
 
-	if (ret = App->render->Blit(EntityTexture, pos.x, pos.y, &rect, flip) == 0)
+bool j1Entity::Load(pugi::xml_node &)
+{
+	return true;
+}
+
+//bool j1Entity::Draw(iPoint pos, SDL_Rect rect, bool flip)
+//{
+//	bool ret = false;
+//
+//	if (ret = App->render->Blit(EntityTexture, pos.x, pos.y, &rect, flip) == 0)
+//	{
+//		LOG("Blit error: Entity Texture");
+//	}
+//
+//	return ret;
+//}
+
+void j1Entity::BlitEntities(SDL_Rect r, bool flip, float x, float y)
+{
+	if (flip == false)
 	{
-		LOG("Blit error: Entity Texture");
+		App->render->Blit(EntityTexture, x, y, &r, flip);
 	}
-
-	return ret;
+	else
+	{
+		App->render->Blit(EntityTexture, x, y, &r, flip);
+	}
 }
 
 void j1Entity::OnCollision(Collider* c1, Collider* c2) //collisions must be managed from the Entity manager

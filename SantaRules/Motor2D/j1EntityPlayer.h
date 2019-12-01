@@ -39,12 +39,15 @@ public:
 	j1EntityPlayer(iPoint pos, ENTITY_TYPE type);
 
 	bool Awake(pugi::xml_node& node);
-
+	
 	bool PreUpdate();
 
 	bool Update(float dt, bool doLogic);
 
 	void OnCollision(Collider* c1, Collider* c2);
+
+	bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
 
 public:
 	
@@ -60,12 +63,13 @@ public:
 	iPoint			ActualizedPosition;		//Needed in EntityMovable?
 	//float			PlayerVel_w;			EntityMovable inherited property -- velocity
 	float			PlayerVel_r;
+	float			PlayerVel_Y;
 	//SDL_Texture*	Graphics = nullptr;		EntityMovable inherited property -- Graphics (also set to nullptr)
 
 
 	//ANIMATION
 	//Draw diferents animations
-	//Animation*	current_animation;		EntityMovable inherited property -- current_animation
+	//Animation*	EntityAnimation;		EntityMovable inherited property -- EntityAnimation
 	//SDL_Rect		rotating_animation;		EntityMovable inherited property -- rotating_animation
 	//bool			flipped = false;		EntityMovable inherited property -- flipped (also set to false)
 	//Idle---
@@ -81,17 +85,32 @@ public:
 	Animation		climbing;
 	//Dying---
 	//Animation		dying;					EntityMovable inherited property -- dying
+	void Movement();
+
 	//Jumping---
 	Animation		jumping;				
-	float			Gravity;
-	float			falling_velocity;
-	bool			in_land;
-	bool			falling;
-	bool			jump_available;
-	bool			mid_air;
-	bool			jump_ended;
-	void			grounded();
-	void			jump();
+	float			TempVelY;
+	float			FallingVel;
+	float			height;
+	bool			On_Ground;
+	float			Gravity; //10
+	float			GravitySave;
+	bool			Jump_Ready;
+	bool			MidAirUP;
+	bool			Falling;
+	bool			EndJump;
+	bool			CanJump = true;
+	bool			TouchingCollider;
+	bool			JumpTicks;
+	bool			FallLeft;
+	bool			FallRight;
+
+	void			On_The_Air();
+	void			On_The_Ground();
+	void			Jumping();
+
+
+
 	
 	//SHORTCUTS
 	bool God_Mode = false;
