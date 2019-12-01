@@ -19,10 +19,12 @@ j1EntityMovable::j1EntityMovable(iPoint pos, ENTITY_TYPE type) : j1Entity(pos, t
 
 	EntityState = Current_State::ST_IDLE;
 	EntityRect = { CurrentPosition.x, CurrentPosition.y, Size.x, Size.y };
+	
 }
 
 bool j1EntityMovable::Awake()
 {
+	EntityCollider->callback = this;
 	return true;
 }
 bool j1EntityMovable::Update(float dt, bool doLogic)

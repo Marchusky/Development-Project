@@ -8,6 +8,7 @@
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
 
 #include "j1Module.h"
+#include "j1Entity.h"
 
 enum COLLIDER_TYPE
 {
@@ -26,9 +27,9 @@ struct Collider
 	SDL_Rect rect;
 	bool to_delete = false;
 	COLLIDER_TYPE type;
-	j1Module* callback = nullptr;
+	j1Entity* callback = nullptr;
 
-	Collider(SDL_Rect rectangle, COLLIDER_TYPE type, j1Module* calback = nullptr) :
+	Collider(SDL_Rect rectangle, COLLIDER_TYPE type, j1Entity* calback = nullptr) :
 		rect(rectangle),
 		type(type),
 		callback(callback) 
@@ -45,9 +46,6 @@ struct Collider
 		rect.h = h;
 	}
 	bool CheckCollision(const SDL_Rect& r) const;
-
-
-	
 };
 class j1Collision : public j1Module
 {
@@ -70,7 +68,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback = nullptr);
+	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Entity* callback = nullptr);
 	void DebugDraw();
 
 	//--Check if collision from sides is possible--//

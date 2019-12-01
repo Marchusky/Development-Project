@@ -44,6 +44,8 @@ public:
 	// Utility: return the walkability value of a tile
 	uchar GetTileAt(const iPoint& pos) const;
 
+	void CopyPathList(p2List<iPoint>* given_list);
+
 private:
 
 	// size of the map
@@ -53,6 +55,8 @@ private:
 	uchar* map;
 	// we store the created path here
 	p2DynArray<iPoint> last_path;
+
+	p2List<iPoint> path_list;
 };
 
 // forward declaration

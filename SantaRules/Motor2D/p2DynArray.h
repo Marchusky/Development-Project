@@ -61,6 +61,11 @@ public:
 		return(*this);
 	}
 
+	const VALUE& getElementAt(uint index)
+	{
+		return data[index];
+	}
+
 	// Data Management
 	void PushBack(const VALUE& element)
 	{
@@ -242,6 +247,13 @@ public:
 
 		while(start < end)
 			SWAP(*start++, *end--);
+	}
+
+	const void CopyData(p2DynArray<VALUE> dataPointer)
+	{
+		dataPointer.num_elements = num_elements;
+		dataPointer.mem_capacity = mem_capacity;
+		dataPointer.data = data;
 	}
 
 private:

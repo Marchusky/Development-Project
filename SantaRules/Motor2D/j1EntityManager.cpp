@@ -21,10 +21,8 @@ j1EntityManager::~j1EntityManager()
 
 bool j1EntityManager::Awake(pugi::xml_node& node)
 {
-	
 	Player = (j1EntityPlayer*)App->manager->CreateEntity(ENTITY_TYPE::PLAYER, App->manager->Init_playerPos);
-	
-	
+	TestEnemy = (j1EntityMovable_ground*)App->manager->CreateEntity(ENTITY_TYPE::WALKING_ENEMY, App->manager->Init_playerPos);
 	for (p2List_item<j1Entity*>* item = entities.start; item != nullptr; item = item->next)
 	{
 		item->data->Awake(node);
@@ -138,7 +136,7 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 				return ret;
 			}
 		*/
-		if (c1->type == PLAYER)
+		if (c1->type == PLAYER || c1->type == ENEMY)
 		{
 			iPoint wall_position = App->map->WorldToMap(c2->rect.x, c2->rect.y);
 			uint tileid = App->map->Metadata->GetLayerPositon(wall_position.x, wall_position.y);
@@ -150,7 +148,8 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 				{
 					if(c2->type == WALL || c2->type == CLIMB_WALL)
 					{
-						Player->CurrentPosition.y = c2->rect.y - c1->rect.h;
+						j1EntityMovable* callback = (j1EntityMovable*)c1->callback;
+						callback->CurrentPosition.y = c2->rect.y - c1->rect.h;						
 					}
 
 					if(c2->type == BONUS)
@@ -175,7 +174,8 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 				{
 					if (c2->type == WALL || c2->type == CLIMB_WALL)
 					{
-						Player->CurrentPosition.y = c2->rect.y + c2->rect.h;
+						j1EntityMovable* callback = (j1EntityMovable*)c1->callback;
+						callback->CurrentPosition.y = c2->rect.y + c2->rect.h;
 					}
 
 					if (c2->type == BONUS)
@@ -199,7 +199,8 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 			{
 				if (App->coll->canCollide_right(tileid))
 				{
-					Player->CurrentPosition.x = c2->rect.x + c2->rect.w;
+					j1EntityMovable* callback = (j1EntityMovable*)c1->callback;
+					callback->CurrentPosition.x = c2->rect.x + c2->rect.w;
 				}
 			}
 
@@ -208,12 +209,13 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 			{
 				if (App->coll->canCollide_left(tileid))
 				{
-					Player->CurrentPosition.x = c2->rect.x - c1->rect.w;
+					j1EntityMovable* callback = (j1EntityMovable*)c1->callback;
+					callback->CurrentPosition.x = c2->rect.x - c1->rect.w;
 				}
 			}
 		}
 
-		if (c2->type == PLAYER)
+		if (c2->type == PLAYER || c2->type == ENEMY)
 		{
 			iPoint wall_position = App->map->WorldToMap(c2->rect.x, c2->rect.y);
 			uint tileid = App->map->Metadata->GetLayerPositon(wall_position.x, wall_position.y);
@@ -223,7 +225,8 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 			{
 				if (App->coll->canCollide_top(tileid))
 				{
-					Player->CurrentPosition.y = c1->rect.y - c2->rect.h;
+					j1EntityMovable* callback = (j1EntityMovable*)c2->callback;
+					callback->CurrentPosition.y = c1->rect.y - c2->rect.h;
 				}
 			}
 
@@ -232,7 +235,8 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 			{
 				if (App->coll->canCollide_bottom(tileid))
 				{
-					Player->CurrentPosition.y = c1->rect.y + c1->rect.h;
+					j1EntityMovable* callback = (j1EntityMovable*)c2->callback;
+					callback->CurrentPosition.y = c1->rect.y + c1->rect.h;
 				}
 			}
 
@@ -241,7 +245,8 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 			{
 				if (App->coll->canCollide_right(tileid))
 				{
-					Player->CurrentPosition.x = c1->rect.x + c1->rect.w;
+					j1EntityMovable* callback = (j1EntityMovable*)c2->callback;
+					callback->CurrentPosition.x = c1->rect.x + c1->rect.w;
 				}
 			}
 
@@ -250,7 +255,8 @@ void j1EntityManager::OnCollision(Collider* c1, Collider* c2)
 			{
 				if (App->coll->canCollide_left(tileid))
 				{
-					Player->CurrentPosition.x = c1->rect.x - c2->rect.w;
+					j1EntityMovable* callback = (j1EntityMovable*)c2->callback;					
+					callback->CurrentPosition.x = c1->rect.x - c2->rect.w;
 				}
 			}
 		}

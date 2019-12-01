@@ -24,7 +24,6 @@ public:
 		ST_RIGHT_W,
 		ST_RIGHT_R,
 		ST_JUMPING,
-		ST_FALLING,
 		ST_SLIDING,
 		ST_CLIMBING,
 		ST_DYING,
@@ -64,7 +63,7 @@ public:
 	SDL_Texture*	Graphics = nullptr;
 	
 	//Animation
-	Animation*		EntityAnimation;
+	Animation*		current_animation;
 	SDL_Rect		rotating_animation;
 	bool			flipped = false;
 

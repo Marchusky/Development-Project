@@ -1,8 +1,8 @@
 <!-- Config file for the game -->
 
 <config>
-  <app framerate_cap ="30">
-    <title>Santa Rules</title>
+  <app>
+    <title>Game Development Testbed</title>
     <organization>UPC</organization>
   </app>
 	
@@ -31,12 +31,11 @@
       <player_stats>
         <character_width value="48"/>
         <character_height value="75"/>
-        <InitialPos_x value="130"/>
-        <InitialPos_y value="185"/>
+        <InitialPos_x value="75"/>
+        <InitialPos_y value="20"/>
         <PlayerVel_w value="3"/>
         <PlayerVel_r value="6"/>
         <Gravity value="4.0f"/>
-        <PlayerVel_Y value="450.0"/>
         <falling_velocity value="10.0f"/>
         <slide_distance value="40"/>
       </player_stats>
@@ -54,12 +53,18 @@
         </main_collider>
       </colliders>
     </player>
+    <enemy>
+      <enemy_stats>
+        <character_width value="48"/>
+        <character_height value="75"/>
+        <InitialPos_x value="270"/>
+        <InitialPos_y value="20"/>
+        <PlayerVel_w value="3"/>
+        <PlayerVel_r value="6"/>
+        <Gravity value="4.0f"/>
+        <falling_velocity value="10.0f"/>
+        <slide_distance value="40"/>
+      </enemy_stats>
+     </enemy>
   </entityManager>
-
-  <scene>
-    <map_name name="map_1.tmx"></map_name>
-    <map_name name="map_2.tmx"></map_name>
-    <transition_time value ="1"/>
-  </scene>
-  
 </config>

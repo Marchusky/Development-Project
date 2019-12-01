@@ -36,21 +36,22 @@ public:
 
 public:
 	//Entity list
-	p2List<j1Entity*>	entities;
-	j1EntityPlayer*		Player;
+	p2List<j1Entity*>			entities;
+	j1EntityPlayer*				Player;
+	j1EntityMovable_ground*		TestEnemy;
 
 	//Entities Initial position
-	iPoint Init_playerPos;
-	iPoint Init_groundEnemyPos;
-	iPoint Init_flyingEnemyPos;
-
+	iPoint						Init_playerPos;			
+	iPoint						Init_groundEnemyPos;
+	iPoint						Init_flyingEnemyPos;
+		
 	//Time management/logic---
-	float				udate_ms_cycle = 10.0f; //just to put some temporary value here 
-	float				accumulated_time = 0;
-	bool				doLogic = false;
+	float						udate_ms_cycle = 10.0f; //just to put some temporary value here 
+	float						accumulated_time = 0;
+	bool						doLogic = false;
 
 	//config file---
-	pugi::xml_node		config;
+	pugi::xml_node				config;
 
 
 };

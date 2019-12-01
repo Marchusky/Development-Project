@@ -573,55 +573,12 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	return ret;
 }
 
-bool j1Map::SwitchMaps(p2SString* new_map) // switch map function that passes the number of map defined in config.xml
+bool j1Map::isGround(uint x, uint y)
 {
-	CleanUp();
-	App->scene->to_end = false;
-	Load(new_map->GetString());
+	uint tileid = Metadata->GetLayerPositon(x, y);
+	if (Metadata->data[tileid + App->map->Metadata->width] != NULL)
+		uint groundTileid = Metadata->data[tileid + App->map->Metadata->width];
 
-	return true;
-}
-
-bool j1Map::ChangeMap(const char* newMap)
-{
-	bool ret = true;
-
-	App->scene->CleanUp();
-
-	App->map->Load(newMap);
-	//Load Collisions
-
-	if (newMap == "map_1.tmx")
-	{
-		App->scene->Map_1 = true;
-		App->scene->Map_2 = false;
-
-		//This needs to be changed somewhere else. Here it works but probably this is not it's place.
-		int w, h;
-		uchar* data = NULL;
-		if (App->map->CreateWalkabilityMap(w, h, &data))				//If CreatewalkabilityMap() returns true. It means that the walkability map could be created.
-		{
-			App->pathfinding->SetMap(w, h, data);						//Sets a new walkability map with the map passed by CreateWalkabilityMap().
-		}
-
-		RELEASE_ARRAY(data);
-	}
-	if (newMap == "map_2.tmx")
-	{
-		App->scene->Map_1 = false;
-		App->scene->Map_2 = true;
-
-		int w, h;
-		uchar* data = NULL;
-		if (App->map->CreateWalkabilityMap(w, h, &data))				//If CreatewalkabilityMap() returns true. It means that the walkability map could be created.
-		{
-			App->pathfinding->SetMap(w, h, data);						//Sets a new walkability map with the map passed by CreateWalkabilityMap().
-		}
-
-		RELEASE_ARRAY(data);
-	}
-
-	App->manager->Player->Start();		//Load / Reset P1	//REVISE THIS HERE. Should players be loaded like this?
-
-	return ret;
+	else
+		return false;
 }
