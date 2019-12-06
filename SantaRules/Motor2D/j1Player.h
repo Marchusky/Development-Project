@@ -7,8 +7,6 @@
 //#include "p2Point.h"
 //#include "Animation.h"
 //
-//
-//
 //struct SDL_Texture;
 //struct Animation;
 //struct Collider;
@@ -59,12 +57,9 @@
 //	iPoint Initial_Pos; //player exclusive
 //
 //public:
-//	//AUDIO
-//
 //
 //	//SHORTCUTS
 //	bool God_Mode = false; // player only
-//
 //
 //	//TESTING - TEMPORAL
 //	float Floor = CurrentPosition.y; //Movement

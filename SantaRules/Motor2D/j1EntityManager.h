@@ -20,11 +20,15 @@ public:
 
 	bool Awake(pugi::xml_node&);
 
+	bool Start();
+
 	bool PreUpdate();
 
 	bool Update(float dt);
 
 	bool PostUpdate();
+
+	bool DrawEntity();
 
 	bool CleanUp();
 
@@ -33,8 +37,9 @@ public:
 	j1Entity* CreateEntity(ENTITY_TYPE type, iPoint initPos);
 	bool DestroyEntity(j1Entity* entity);
 	void OnCollision(Collider* c1, Collider* c2);
-
+	
 public:
+	//SDL_Texture					PlayerTexture;
 	//Entity list
 	p2List<j1Entity*>			entities;
 	j1EntityPlayer*				Player;
@@ -52,6 +57,7 @@ public:
 
 	//config file---
 	pugi::xml_node				config;
+
 
 
 };

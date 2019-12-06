@@ -3,8 +3,8 @@
 
 #include "j1Module.h"
 #include "p2Point.h"
+#include "SDL/include/SDL.h"
 
-struct SDL_Rect;
 struct Collider;
 struct SDL_Texture;
 
@@ -21,6 +21,8 @@ class j1Entity : public j1Module
 public:
 	j1Entity(iPoint pos, ENTITY_TYPE type);
 
+	virtual bool Start();
+
 	virtual bool PreUpdate();
 
 	virtual bool Update(float dt, bool doLogic);
@@ -33,7 +35,7 @@ public:
 
 	//load?
 
-	virtual bool Draw(iPoint pos, SDL_Rect rect, bool flip);
+	virtual bool Draw();
 
 	virtual void OnCollision(Collider* c1, Collider* c2);
 
@@ -57,7 +59,9 @@ protected:
 	Collider*		EntityCollider;
 	iPoint			StartingPosition;
 	SDL_Texture*	EntityTexture;
+	SDL_Rect		EntityRect;
 	iPoint			sprite_size;
+	bool			flipped;
 
 	friend class j1EntityManager;
 };

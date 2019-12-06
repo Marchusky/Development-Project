@@ -44,6 +44,10 @@ public:
 
 	bool Update(float dt, bool doLogic);
 
+	bool Start();
+
+	bool Draw();
+
 	void OnCollision(Collider* c1, Collider* c2);
 
 public:
@@ -60,8 +64,7 @@ public:
 	iPoint			ActualizedPosition;		//Needed in EntityMovable?
 	//float			PlayerVel_w;			EntityMovable inherited property -- velocity
 	float			PlayerVel_r;
-	//SDL_Texture*	Graphics = nullptr;		EntityMovable inherited property -- Graphics (also set to nullptr)
-
+	//SDL_Texture*	Graphics = nullptr;		Entity inherited property -- EntityTexture (also set to nullptr)
 
 	//ANIMATION
 	//Draw diferents animations

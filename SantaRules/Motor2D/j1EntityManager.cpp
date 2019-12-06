@@ -22,12 +22,23 @@ j1EntityManager::~j1EntityManager()
 bool j1EntityManager::Awake(pugi::xml_node& node)
 {
 	Player = (j1EntityPlayer*)App->manager->CreateEntity(ENTITY_TYPE::PLAYER, App->manager->Init_playerPos);
+
 	TestEnemy = (j1EntityMovable_ground*)App->manager->CreateEntity(ENTITY_TYPE::WALKING_ENEMY, App->manager->Init_playerPos);
 	for (p2List_item<j1Entity*>* item = entities.start; item != nullptr; item = item->next)
 	{
 		item->data->Awake(node);
 	}
 	
+	return true;
+}
+
+bool j1EntityManager::Start()
+{
+	for (p2List_item<j1Entity*>* item = entities.start; item != nullptr; item = item->next)
+	{
+		item->data->Start();
+	}
+
 	return true;
 }
 
@@ -73,6 +84,16 @@ bool j1EntityManager::PostUpdate()
 	for (p2List_item<j1Entity*>* EntityIterator = entities.start; EntityIterator != nullptr; EntityIterator = EntityIterator->next)
 	{
 		EntityIterator->data->PostUpdate();
+	}
+	DrawEntity();
+	return true;
+}
+
+bool j1EntityManager::DrawEntity()
+{
+	for (p2List_item<j1Entity*>* EntityIterator = entities.start; EntityIterator != nullptr; EntityIterator = EntityIterator->next)
+	{
+		EntityIterator->data->Draw();
 	}
 	return true;
 }

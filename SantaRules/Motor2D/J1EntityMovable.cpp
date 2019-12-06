@@ -42,7 +42,7 @@ bool j1EntityMovable::CleanUp()
 {
 	LOG("Unloading Entity");
 
-	App->tex->UnLoad(Graphics);
+	App->tex->UnLoad(EntityTexture);
 
 	return true;
 }

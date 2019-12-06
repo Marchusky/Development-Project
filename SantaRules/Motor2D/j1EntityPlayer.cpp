@@ -136,14 +136,6 @@ j1EntityPlayer::j1EntityPlayer(iPoint pos, ENTITY_TYPE type) : j1EntityMovable_g
 
 	dying.speed = 0.1f;
 
-	//Start
-	LOG("Loading player textures");
-	//Graphics = App->tex->Load("Spritesheets/Santa.png");
-
-	EntityState = Current_State::ST_IDLE;
-	EntityRect = { CurrentPosition.x, CurrentPosition.y, Size.x, Size.y };
-	
-
 	God_Mode = false;
 } 
 
@@ -180,6 +172,18 @@ bool j1EntityPlayer::Awake(pugi::xml_node& node)
 	EntityCollider->callback = this;
 	return true;
 }
+
+bool j1EntityPlayer::Start()
+{
+	LOG("Loading player textures");
+	EntityTexture = App->tex->Load("Spritesheets/Santa.png");
+
+	EntityState = Current_State::ST_IDLE;
+	EntityRect = { CurrentPosition.x, CurrentPosition.y, Size.x, Size.y };
+
+	return true;
+}
+
 bool j1EntityPlayer::PreUpdate()
 {
 	bool ret = true;
@@ -458,11 +462,20 @@ bool j1EntityPlayer::Update(float dt, bool doLogic)
 	EntityRect = { CurrentPosition.x, CurrentPosition.y, Size.x, Size.y };
 	EntityCollider->SetPos(CurrentPosition.x, CurrentPosition.y);
 
+	return true;
+}
+
+bool j1EntityPlayer::Draw()
+{
+	bool ret = true;
 	//ANIMATIONS
 	rotating_animation = current_animation->GetCurrentFrame();
-	App->render->Blit(Graphics, CurrentPosition.x, CurrentPosition.y, &rotating_animation, flipped);
+	if ((ret = App->render->Blit(EntityTexture, CurrentPosition.x, CurrentPosition.y, &rotating_animation, flipped) == 0))
+	{
+		LOG("Blit error in Player");
+	}
 
-	return true;
+	return ret;
 }
 
 void j1EntityPlayer::grounded()
