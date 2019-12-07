@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="150" height="45" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
  <tileset firstgid="1" name="snow_tileset" tilewidth="32" tileheight="32" tilecount="144" columns="16">
-  <image source="../SantaRules/Game/maps/snow tileset.png" width="512" height="288"/>
+  <image source="platformer_tileset.png" width="512" height="288"/>
  </tileset>
  <layer id="5" name="Terrain" width="150" height="45">
   <data>
