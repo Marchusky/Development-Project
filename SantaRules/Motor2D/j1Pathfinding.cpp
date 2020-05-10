@@ -2,6 +2,8 @@
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1PathFinding.h"
+#include "p2Point.h"
+#include "j1Map.h"
 
 j1PathFinding::j1PathFinding() : j1Module(), map(NULL), last_path(DEFAULT_PATH_LENGTH), width(0), height(0)
 {
@@ -61,7 +63,16 @@ uchar j1PathFinding::GetTileAt(const iPoint& pos) const
 // To request all tiles involved in the last generated path
 const p2DynArray<iPoint>* j1PathFinding::GetLastPath() const
 {
-	return &last_path;
+	return &last_path; 
+}
+
+void j1PathFinding::CopyPathList(p2List<iPoint>* empty_list)
+{
+	empty_list->clear();
+	for (p2List_item<iPoint>* item = path_list.start; item != nullptr; item = item->next)
+	{
+		empty_list->add(item->data);
+	}
 }
 
 // PathList ------------------------------------------------------------------------
@@ -191,13 +202,28 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			// TODO 4: If we just added the destination, we are done!
 			if (current->data.pos == destination)
 			{
+				path_list.clear();
 				last_path.Clear();
 				// Backtrack to create the final path
 
 				for (const PathNode* node = &current->data; node != NULL; node = node->parent)
+				{
 					last_path.PushBack(node->pos);
+					path_list.add(node->pos);
+				}
+
 				// Use the Pathnode::parent and Flip() the path when you are finish
 				last_path.Flip();
+				
+				p2List<iPoint> last_path_flipped;
+				for (p2List_item<iPoint>* item = path_list.start; item != nullptr; item = item->next)
+				{
+					last_path_flipped.add(item->data);
+				}
+
+				path_list.clear();
+				path_list += last_path_flipped;
+
 				LOG("Distance to destinaton of: %d", last_path.Count());
 				ret = last_path.Count();
 				break;

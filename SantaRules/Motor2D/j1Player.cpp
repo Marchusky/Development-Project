@@ -409,57 +409,57 @@
 //	{
 //	case ST_IDLE:
 //		LOG("IDLE");
-//		EntityAnimation = &idle; 
+//		current_animation = &idle; 
 //		break;
 //
 //	case ST_LEFT_W:
 //		LOG("WALKING LEFT");
 //		flipped = true;
 //		CurrentPosition.x -= PlayerVel_w;
-//		EntityAnimation = &walking;
+//		current_animation = &walking;
 //		break;
 //
 //	case ST_LEFT_R:
 //		LOG("RUNNING LEFT");
 //		flipped = true;
 //		CurrentPosition.x -= PlayerVel_r;
-//		EntityAnimation = &running;
+//		current_animation = &running;
 //		break;
 //
 //	case ST_RIGHT_W:
 //		LOG("WALKING RIGHT");
 //		flipped = false;
 //		CurrentPosition.x += PlayerVel_w;
-//		EntityAnimation = &walking;
+//		current_animation = &walking;
 //		break;
 //
 //	case ST_RIGHT_R:
 //		LOG("RUNNING RIGHT");
 //		flipped = false;
 //		CurrentPosition.x += PlayerVel_r;   
-//		EntityAnimation = &running;
+//		current_animation = &running;
 //		break;
 //
 //	case ST_JUMPING:
 //		LOG("JUMPING");
 //
-//		EntityAnimation = &jumping;
+//		current_animation = &jumping;
 //		//FALTA
 //		break;
 //
 //	case ST_SLIDING:
 //		LOG("SLIDING");
-//		EntityAnimation = &sliding;
+//		current_animation = &sliding;
 //		break;
 //
 //	case ST_CLIMBING:
 //		LOG("CLIMBING");
-//		EntityAnimation = &climbing;
+//		current_animation = &climbing;
 //		break;
 //
 //	case ST_DYING:
 //		LOG("DYING");
-//		EntityAnimation = &dying;
+//		current_animation = &dying;
 //		break;
 //	}
 //
@@ -469,7 +469,7 @@
 //
 //
 //	//ANIMATIONS
-//	rotating_animation = EntityAnimation->GetCurrentFrame();
+//	rotating_animation = current_animation->GetCurrentFrame();
 //	App->render->Blit(Graphics, CurrentPosition.x, CurrentPosition.y, &rotating_animation, flipped);
 //
 //

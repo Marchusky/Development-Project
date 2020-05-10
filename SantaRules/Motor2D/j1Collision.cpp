@@ -102,11 +102,29 @@ bool j1Collision::PostUpdate() //BIG ERROR HERE, CALLBACK ACCESSES WEIRD PLACES
 
 			c2 = colliders[k];
 
-			if (c1->CheckCollision(c2->rect) == true && matrix[c2->type][c1->type] && App->manager->Player->God_Mode != true)
+			if (c1->CheckCollision(c2->rect) == true && matrix[c2->type][c1->type])
 			{
-				App->manager->OnCollision(c1, c2);
-			}
+				if ((c1->type == PLAYER && c2->type == ENEMY) && (c1->type == ENEMY && c2->type == PLAYER))
+				{
+					if (App->manager->Player->God_Mode == false)
+					{
+						App->manager->OnCollision(c1, c2);
+					}
+				}
 
+				else if ((c1->type == ENEMY )|| (c2->type == ENEMY))
+				{
+					App->manager->OnCollision(c1, c2);
+				}
+				
+				else if (c1->type == PLAYER || c2->type == PLAYER)
+				{
+					if (App->manager->Player->God_Mode == false)
+					{
+						App->manager->OnCollision(c1, c2);
+					}
+				}	
+			}
 		}
 	}
 
@@ -153,6 +171,10 @@ void j1Collision::DebugDraw()
 
 			case BONUS: // yellow
 				App->render->DrawQuad(colliders[i]->rect, 255, 255, 0, alpha);
+				break;
+
+			case ENEMY: // pink
+				App->render->DrawQuad(colliders[i]->rect, 255, 0, 255, alpha);
 				break;
 			}
 
@@ -248,7 +270,7 @@ bool j1Collision::CleanUp()
 }
 
 
-Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback)
+Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Entity* callback)
 {
 	Collider* ret = nullptr;
 

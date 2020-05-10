@@ -24,7 +24,6 @@ public:
 		ST_RIGHT_W,
 		ST_RIGHT_R,
 		ST_JUMPING,
-		ST_FALLING,
 		ST_SLIDING,
 		ST_CLIMBING,
 		ST_DYING,
@@ -61,17 +60,13 @@ public:
 	//Position / Movement
 	iPoint			CurrentPosition;
 	float			velocity;
-	SDL_Texture*	Graphics = nullptr;
+	//SDL_Texture	Graphics;					Entity inherited property -- EntityTexture
 	
 	//Animation
-	Animation*		EntityAnimation;
+	Animation*		current_animation;
 	SDL_Rect		rotating_animation;
 	bool			flipped = false;
 
-	//Texture
-	SDL_Texture*	tex;
-	SDL_Rect*		tex_rect;
-	
 	
 
 };

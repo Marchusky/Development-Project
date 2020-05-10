@@ -7,6 +7,9 @@
 #include "j1Module.h"
 #include "SDL_image/include/SDL_image.h"
 
+// TODO 5: Create a generic structure to hold properties
+// TODO 7: Our custom properties should have one method
+// to ask for the value of a custom property
 // ----------------------------------------------------
 struct Properties
 {
@@ -130,11 +133,7 @@ public:
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
 	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
-
-	bool SwitchMaps(p2SString* new_map);
-	bool ChangeMap(const char* newMap);		//Change map with a fade time
-
-
+	bool isGround(uint x, uint y);
 private:
 
 	bool LoadMap();
@@ -154,8 +153,6 @@ public:
 	uint win_height = 0;
 	bool drawLayer;
 	
-	int				tile_index;				//Will store the tile's index
-
 
 private:
 
